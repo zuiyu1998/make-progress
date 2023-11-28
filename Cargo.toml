@@ -10,5 +10,4 @@ members = [".", "./crates/*"]
 
 [dependencies]
 rc-storage = { path = "./crates/storage" }
-chrono = { version = "0.4" }
 thiserror = { version = "1.0" }

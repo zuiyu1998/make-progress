@@ -1257,7 +1257,6 @@ dependencies = [
 name = "make-progress-core"
 version = "0.1.0"
 dependencies = [
- "chrono",
  "rc-storage",
  "thiserror",
 ]
@@ -1795,6 +1794,8 @@ dependencies = [
 name = "rc-storage"
 version = "0.1.0"
 dependencies = [
+ "chrono",
+ "rc-entity",
  "thiserror",
 ]
 

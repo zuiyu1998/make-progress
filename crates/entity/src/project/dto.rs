@@ -32,6 +32,7 @@ impl ProjectModelDto {
     }
 }
 
+#[derive(Default)]
 pub struct ProjectOption {
     pub id: Option<i32>,
     pub name: Option<String>,
