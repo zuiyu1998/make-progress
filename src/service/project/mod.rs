@@ -1,5 +1,9 @@
 use crate::{Service, ServiceResult};
-use rc_storage::{chrono::NaiveDateTime, prelude::ProjectStorage, sea_orm::TransactionTrait};
+use rc_storage::{
+    chrono::NaiveDateTime,
+    prelude::{ProjectStorage, ProjectStorageModel},
+    sea_orm::TransactionTrait,
+};
 
 mod dto;
 
@@ -17,6 +21,29 @@ pub struct Project {
     pub link_list: Vec<Link>,
 }
 
+impl From<ProjectStorageModel> for Project {
+    fn from(value: ProjectStorageModel) -> Self {
+        let ProjectStorageModel {
+            id,
+            name,
+            background,
+            create_at,
+            update_at,
+            end_at,
+        } = value;
+
+        Project {
+            id,
+            name,
+            background,
+            create_at,
+            update_at,
+            end_at,
+            link_list: vec![],
+        }
+    }
+}
+
 pub struct ProjectService<'a> {
     service: &'a Service,
 }
@@ -28,10 +55,10 @@ impl<'a> ProjectService<'a> {
 
         let project_storage = ProjectStorage::new(&begin);
 
-        project_storage.create_project(form).await?;
+        let project = project_storage.create_project(form).await?.into();
 
         begin.commit().await?;
 
-        todo!()
+        Ok(project)
     }
 }
