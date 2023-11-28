@@ -1,14 +1,19 @@
 use crate::StorageResult;
-use dto::*;
 use rc_entity::{prelude::ProjectDb, sea_orm::ConnectionTrait};
 
 mod dto;
+
+pub use dto::*;
 
 pub struct ProjectStorage<'a, C> {
     conn: &'a C,
 }
 
 impl<'a, C: ConnectionTrait> ProjectStorage<'a, C> {
+    pub fn new(conn: &'a C) -> Self {
+        ProjectStorage { conn }
+    }
+
     pub async fn create_project(
         &self,
         form: ProjectStorageForm,

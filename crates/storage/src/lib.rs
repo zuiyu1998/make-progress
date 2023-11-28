@@ -18,7 +18,8 @@ impl Storage {
 pub use error::*;
 
 pub mod prelude {
-    pub use crate::project::ProjectStorage;
+    pub use crate::project::*;
 }
 
 pub use chrono;
+pub use rc_entity::sea_orm;
