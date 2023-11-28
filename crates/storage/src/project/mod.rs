@@ -1,27 +1,23 @@
-use crate::{Storage, StorageResult};
+use crate::StorageResult;
 use dto::*;
-use rc_entity::{prelude::ProjectDb, sea_orm::TransactionTrait};
+use rc_entity::{prelude::ProjectDb, sea_orm::ConnectionTrait};
 
 mod dto;
 
-pub struct ProjectStorage<'a> {
-    storage: &'a Storage,
+pub struct ProjectStorage<'a, C> {
+    conn: &'a C,
 }
 
-impl<'a> ProjectStorage<'a> {
+impl<'a, C: ConnectionTrait> ProjectStorage<'a, C> {
     pub async fn create_project(
         &self,
         form: ProjectStorageForm,
     ) -> StorageResult<ProjectStorageModel> {
         let option = form.into_option();
 
-        let begin = self.storage.conn.begin().await?;
-
-        let db = ProjectDb::new(&begin);
+        let db = ProjectDb::new(self.conn);
 
         let model = db.create(option).await?.into();
-
-        begin.commit().await?;
 
         Ok(model)
     }
