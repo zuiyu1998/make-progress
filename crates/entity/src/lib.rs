@@ -2,9 +2,9 @@ mod project;
 
 pub mod error;
 
+pub use error::*;
+
 pub mod prelude {
 
-    pub use crate::project::{
-        Column as ProjectColumn, Entity as ProjectEntity, Model as ProjectModel,
-    };
+    pub use crate::project::*;
 }
