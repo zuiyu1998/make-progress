@@ -6,3 +6,9 @@ mod project;
 pub struct Service {
     pub storage: Storage,
 }
+
+impl Service {
+    pub fn new(storage: Storage) -> Self {
+        Self { storage }
+    }
+}
