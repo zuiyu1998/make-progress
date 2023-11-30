@@ -34,6 +34,14 @@ pub struct ProjectStorageModel {
     pub end_at: Option<NaiveDateTime>,
 }
 
+pub struct ProjectStorageList {
+    pub data: Vec<ProjectStorageModel>,
+    pub total: u64,
+    pub page_size: u64,
+    pub page: u64,
+    pub has_next: bool,
+}
+
 impl From<ProjectModelDto> for ProjectStorageModel {
     fn from(value: ProjectModelDto) -> Self {
         let ProjectModelDto {
@@ -56,4 +64,7 @@ impl From<ProjectModelDto> for ProjectStorageModel {
     }
 }
 
-pub struct ProjectStorageListParams {}
+pub struct ProjectStorageListParams {
+    pub page_size: u64,
+    pub page: u64,
+}

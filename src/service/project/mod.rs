@@ -49,6 +49,7 @@ pub struct ProjectService<'a> {
 }
 
 impl<'a> ProjectService<'a> {
+    ///创建项目
     pub async fn create_project(&self, form: ProjectForm) -> ServiceResult<Project> {
         let form = form.into();
         let begin = self.service.storage.conn.begin().await?;
@@ -60,5 +61,19 @@ impl<'a> ProjectService<'a> {
         begin.commit().await?;
 
         Ok(project)
+    }
+
+    ///获取项目列表
+    pub async fn get_project_list(&self, params: ProjectListParams) -> ServiceResult<ProjectList> {
+        let params = params.into();
+
+        let begin = self.service.storage.conn.begin().await?;
+
+        let project_storage = ProjectStorage::new(&begin);
+        let data = project_storage.list(params).await?.into();
+
+        begin.commit().await?;
+
+        Ok(data)
     }
 }
