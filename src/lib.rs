@@ -25,8 +25,6 @@ pub async fn create_service() -> Service {
     let sqlite_path = sqlite_file.to_str().unwrap();
     let conn_str = format!("sqlite:///{}", sqlite_path);
 
-    println!("{:?}", conn_str);
-
     let conn = Database::connect(&conn_str)
         .await
         .expect("databas connect error.");
