@@ -4,12 +4,17 @@ use rc_storage::{
     prelude::{ProjectStorage, ProjectStorageModel},
     sea_orm::TransactionTrait,
 };
+use serde::{Deserialize, Serialize};
 
 mod dto;
 
-use dto::*;
+pub use dto::*;
+
+#[derive(Serialize, Deserialize)]
 
 pub struct Link {}
+
+#[derive(Serialize, Deserialize)]
 
 pub struct Project {
     pub id: i32,
@@ -81,7 +86,7 @@ impl<'a> ProjectService<'a> {
         Ok(data)
     }
 
-    pub async fn delete(&self, id: i32) -> ServiceResult<()> {
+    pub async fn delete_project(&self, id: i32) -> ServiceResult<()> {
         let begin = self.service.storage.conn.begin().await?;
         let project_storage = ProjectStorage::new(&begin);
 

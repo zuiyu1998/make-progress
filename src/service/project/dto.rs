@@ -2,9 +2,11 @@ use rc_storage::{
     chrono::NaiveDateTime,
     prelude::{ProjectStorageForm, ProjectStorageList, ProjectStorageListParams},
 };
+use serde::{Deserialize, Serialize};
 
 use super::Project;
 
+#[derive(Serialize, Deserialize)]
 pub struct ProjectForm {
     pub name: String,
     pub background: String,
@@ -33,6 +35,7 @@ impl From<ProjectForm> for ProjectStorageForm {
     }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct ProjectListParams {
     pub page_size: u64,
     pub page: u64,
@@ -47,6 +50,7 @@ impl From<ProjectListParams> for ProjectStorageListParams {
     }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct ProjectList {
     pub data: Vec<Project>,
     pub total: u64,

@@ -3,10 +3,10 @@
 
 use make_progress_core::{create_service, prelude::tokio};
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+mod command;
+mod error;
+
+pub use error::*;
 
 #[tokio::main]
 async fn main() {
@@ -14,7 +14,7 @@ async fn main() {
 
     tauri::Builder::default()
         .manage(serivce)
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(command::get_handlers())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -2,6 +2,8 @@ use rc_storage::Storage;
 
 mod project;
 
+pub use project::*;
+
 #[derive(Clone)]
 pub struct Service {
     pub storage: Storage,
