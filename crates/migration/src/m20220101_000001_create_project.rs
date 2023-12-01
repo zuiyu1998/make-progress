@@ -19,8 +19,24 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(ProjectColumn::Name).string().not_null())
+                    .col(
+                        ColumnDef::new(ProjectColumn::Name)
+                            .string()
+                            .not_null()
+                            .unique_key(),
+                    )
                     .col(ColumnDef::new(ProjectColumn::Background).string())
+                    .col(
+                        ColumnDef::new(ProjectColumn::CreateAt)
+                            .date_time()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(ProjectColumn::UpdateAt)
+                            .date_time()
+                            .not_null(),
+                    )
+                    .col(ColumnDef::new(ProjectColumn::EndAt).date_time().not_null())
                     .to_owned(),
             )
             .await
