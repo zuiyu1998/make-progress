@@ -18,8 +18,19 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "/@/*": ["src/*"],
+      "/#/*": ["types/*"]
+    }
   },
-  "include": ["src"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "types/**/*.d.ts",
+    "types/**/*.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
