@@ -49,6 +49,10 @@ pub struct ProjectService<'a> {
 }
 
 impl<'a> ProjectService<'a> {
+    pub fn new(service: &'a Service) -> Self {
+        ProjectService { service }
+    }
+
     ///创建项目
     pub async fn create_project(&self, form: ProjectForm) -> ServiceResult<Project> {
         let form = form.into();
@@ -75,5 +79,16 @@ impl<'a> ProjectService<'a> {
         begin.commit().await?;
 
         Ok(data)
+    }
+
+    pub async fn delete(&self, id: i32) -> ServiceResult<()> {
+        let begin = self.service.storage.conn.begin().await?;
+        let project_storage = ProjectStorage::new(&begin);
+
+        project_storage.delete(id).await?;
+
+        begin.commit().await?;
+
+        Ok(())
     }
 }

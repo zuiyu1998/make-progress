@@ -1,7 +1,7 @@
 use crate::StorageResult;
 use rc_entity::{
     prelude::{ProjectDb, ProjectEntity, ProjectModelDto},
-    sea_orm::{ConnectionTrait, EntityTrait, PaginatorTrait},
+    sea_orm::{ConnectionTrait, EntityTrait, PaginatorTrait, Set},
 };
 
 mod dto;
@@ -15,6 +15,14 @@ pub struct ProjectStorage<'a, C> {
 impl<'a, C: ConnectionTrait> ProjectStorage<'a, C> {
     pub fn new(conn: &'a C) -> Self {
         ProjectStorage { conn }
+    }
+
+    pub async fn delete(&self, id: i32) -> StorageResult<()> {
+        let db = ProjectDb::new(self.conn);
+
+        db.delete(id).await?;
+
+        Ok(())
     }
 
     pub async fn create_project(

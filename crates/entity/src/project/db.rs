@@ -1,7 +1,8 @@
 use crate::EntityResult;
-use sea_orm::{ActiveModelTrait, ConnectionTrait};
+use sea_orm::{ActiveModelTrait, ConnectionTrait, Set};
 
 use super::dto::{ProjectModelDto, ProjectOption};
+use super::ProjectActiveModel;
 
 pub struct ProjectDb<'a, C> {
     conn: &'a C,
@@ -20,5 +21,15 @@ impl<'a, C: ConnectionTrait> ProjectDb<'a, C> {
         let dto = ProjectModelDto::new(model);
 
         Ok(dto)
+    }
+
+    pub async fn delete(&self, id: i32) -> EntityResult<()> {
+        let mut model: ProjectActiveModel = Default::default();
+
+        model.id = Set(id);
+
+        model.delete(self.conn).await?;
+
+        Ok(())
     }
 }
