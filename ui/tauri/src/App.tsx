@@ -1,10 +1,14 @@
 import { ApplicationProvider } from './components/application';
 import Router from './router';
+import { AppLayout } from '/@/layout';
+import '/@/layout/index.less';
 
 function App() {
   return (
     <ApplicationProvider>
-      <Router />
+      <AppLayout>
+        <Router />
+      </AppLayout>
     </ApplicationProvider>
   );
 }
