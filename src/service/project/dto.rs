@@ -9,27 +9,23 @@ use super::Project;
 #[derive(Serialize, Deserialize)]
 pub struct ProjectForm {
     pub name: String,
-    pub background: String,
-    pub create_at: NaiveDateTime,
-    pub update_at: NaiveDateTime,
+    pub background: Option<String>,
     pub end_at: Option<NaiveDateTime>,
 }
 
-impl From<ProjectForm> for ProjectStorageForm {
-    fn from(value: ProjectForm) -> Self {
+impl ProjectForm {
+    pub fn into_storage_form(self, now: NaiveDateTime) -> ProjectStorageForm {
         let ProjectForm {
             name,
             background,
-            create_at,
-            update_at,
             end_at,
-        } = value;
+        } = self;
 
         ProjectStorageForm {
             name,
             background,
-            create_at,
-            update_at,
+            create_at: now.clone(),
+            update_at: now,
             end_at,
         }
     }

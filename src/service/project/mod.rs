@@ -1,6 +1,6 @@
 use crate::{Service, ServiceResult};
 use rc_storage::{
-    chrono::NaiveDateTime,
+    chrono::{Local, NaiveDateTime},
     prelude::{ProjectStorage, ProjectStorageModel},
     sea_orm::TransactionTrait,
 };
@@ -60,7 +60,9 @@ impl<'a> ProjectService<'a> {
 
     ///创建项目
     pub async fn create_project(&self, form: ProjectForm) -> ServiceResult<Project> {
-        let form = form.into();
+        let now = Local::now();
+
+        let form = form.into_storage_form(now.naive_local());
         let begin = self.service.storage.conn.begin().await?;
 
         let project_storage = ProjectStorage::new(&begin);
