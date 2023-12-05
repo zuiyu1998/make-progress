@@ -17,3 +17,8 @@ export type ProjectList = {
   page: number;
   has_next: number;
 };
+
+export type ProjectForm = {
+  name: String;
+  end_at?: String;
+};

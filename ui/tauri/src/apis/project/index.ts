@@ -1,5 +1,5 @@
 import { defApi } from '../../utils/api/index';
-import { ProjectList } from './model';
+import { ProjectList, ProjectForm } from './model';
 
 enum Api {
   CreateProject = 'create_project',
@@ -12,5 +12,11 @@ export async function getProjectList() {
       page_size: 50,
       page: 1,
     },
+  });
+}
+
+export async function createProject(form: ProjectForm) {
+  return defApi.invoke<void>(Api.CreateProject, {
+    form,
   });
 }
