@@ -36,7 +36,7 @@ impl MigrationTrait for Migration {
                             .date_time()
                             .not_null(),
                     )
-                    .col(ColumnDef::new(ProjectColumn::EndAt).date_time().not_null())
+                    .col(ColumnDef::new(ProjectColumn::EndAt).date_time())
                     .to_owned(),
             )
             .await
