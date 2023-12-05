@@ -13,9 +13,6 @@ function ProjectCreateView() {
 
       createProject({
         name: values.name,
-        end_at: values.end_at
-          ? dayjs(values.end_at).format('YYYY-MM-DD')
-          : undefined,
       });
     } catch (error) {}
   }

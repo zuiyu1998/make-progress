@@ -1,28 +1,26 @@
+import { LAYOUT } from './consts';
 import Dashboard from '/@/views/dashboard';
 import ProjectCreateView from '/@/views/project/create';
-import {
-  createBrowserRouter,
-  redirect,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    loader: () => {
-      return redirect('/dashboard');
-    },
-  },
-  {
-    path: '/dashboard',
-    element: <Dashboard />,
-  },
-  {
-    path: '/project',
+    element: <LAYOUT />,
     children: [
+      { index: true, element: <Dashboard /> },
       {
-        path: 'create',
-        element: <ProjectCreateView />,
+        path: '/dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: '/project',
+        children: [
+          {
+            path: 'create',
+            element: <ProjectCreateView />,
+          },
+        ],
       },
     ],
   },

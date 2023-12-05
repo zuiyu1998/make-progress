@@ -1,14 +1,11 @@
 import { ApplicationProvider } from './components/application';
 import Router from './router';
-import { AppLayout } from '/@/layout';
-import '/@/layout/index.less';
+import '/@/layout/default/index.less';
 
 function App() {
   return (
     <ApplicationProvider>
-      <AppLayout>
-        <Router />
-      </AppLayout>
+      <Router />
     </ApplicationProvider>
   );
 }

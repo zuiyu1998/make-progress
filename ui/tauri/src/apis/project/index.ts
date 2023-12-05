@@ -10,7 +10,7 @@ export async function getProjectList() {
   return defApi.invoke<ProjectList>(Api.getProjectList, {
     params: {
       page_size: 50,
-      page: 1,
+      page: 0,
     },
   });
 }
