@@ -1,19 +1,15 @@
 import { Layout } from 'antd';
 import classNames from './index.module.less';
 import { AppSider } from './sider';
-import { Outlet } from 'react-router-dom';
-
-const { Content } = Layout;
+import { AppContent } from './content';
 
 function AppLayout() {
   return (
-    <Layout className={classNames.layout}>
+    <Layout className={classNames['next-layout-default']}>
       <Layout>
         <AppSider />
-        <Layout>
-          <Content>
-            <Outlet />
-          </Content>
+        <Layout className={classNames['next-layout-main']}>
+          <AppContent />
         </Layout>
       </Layout>
     </Layout>

@@ -15,7 +15,7 @@ export type ProjectList = {
   total: number;
   page_size: number;
   page: number;
-  has_next: number;
+  has_next: boolean;
 };
 
 export type ProjectForm = {

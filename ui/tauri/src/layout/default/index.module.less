@@ -1,4 +1,19 @@
-.layout {
-    height: 100%;
-    width: 100%;
+.next-layout {
+    &-default {
+        height: 100%;
+        width: 100%;
+    }
+
+    &-main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-content {
+        position: relative;
+        flex: 1 1 auto;
+        min-height: 0;
+
+    }
+
 }

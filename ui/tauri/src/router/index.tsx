@@ -1,6 +1,7 @@
 import { LAYOUT } from './consts';
 import Dashboard from '/@/views/dashboard';
-import ProjectCreateView from '/@/views/project/create';
+import ProjectCreate from '/@/views/project/create';
+import ProjectDashboard from '/@/views/project/dashboard';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -8,7 +9,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <LAYOUT />,
     children: [
-      { index: true, element: <Dashboard /> },
+      { index: true, element: <ProjectDashboard /> },
       {
         path: '/dashboard',
         element: <Dashboard />,
@@ -17,8 +18,12 @@ const router = createBrowserRouter([
         path: '/project',
         children: [
           {
+            path: 'dashboard',
+            element: <ProjectDashboard />,
+          },
+          {
             path: 'create',
-            element: <ProjectCreateView />,
+            element: <ProjectCreate />,
           },
         ],
       },
