@@ -19,6 +19,7 @@ impl ProjectModelDto {
             create_at,
             update_at,
             end_at,
+            ..
         } = project;
 
         ProjectModelDto {

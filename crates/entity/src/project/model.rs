@@ -11,6 +11,9 @@ pub struct Model {
     pub create_at: ChronoDateTime,
     pub update_at: ChronoDateTime,
     pub end_at: Option<ChronoDateTime>,
+    pub is_delete: bool,
+    pub is_enable: bool,
+    pub remark: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
