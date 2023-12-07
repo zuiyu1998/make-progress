@@ -1,7 +1,7 @@
 use crate::StorageResult;
 use rc_entity::{
-    prelude::{ProjectDb, ProjectEntity, ProjectModelDto},
-    sea_orm::{ConnectionTrait, EntityTrait, PaginatorTrait},
+    prelude::{ProjectColumn, ProjectDb, ProjectEntity, ProjectModelDto},
+    sea_orm::{ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter},
 };
 
 mod dto;
@@ -38,8 +38,12 @@ impl<'a, C: ConnectionTrait> ProjectStorage<'a, C> {
         Ok(model)
     }
 
-    pub fn find_project(&self, _id: i32) -> StorageResult<Option<ProjectStorageModel>> {
-        Ok(None)
+    pub async fn find_project(&self, id: i32) -> StorageResult<ProjectStorageModel> {
+        let db = ProjectDb::new(self.conn);
+
+        let model = db.get(id).await?.into();
+
+        Ok(model)
     }
 
     pub fn update_project(

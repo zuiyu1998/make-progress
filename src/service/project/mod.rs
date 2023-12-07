@@ -58,6 +58,19 @@ impl<'a> ProjectService<'a> {
         ProjectService { service }
     }
 
+    ///获取项目详情
+    pub async fn get_project(&self, project_id: i32) -> ServiceResult<Project> {
+        let begin = self.service.storage.conn.begin().await?;
+
+        let project_storage = ProjectStorage::new(&begin);
+
+        let project = project_storage.find_project(project_id).await?.into();
+
+        begin.commit().await?;
+
+        Ok(project)
+    }
+
     ///创建项目
     pub async fn create_project(&self, form: ProjectForm) -> ServiceResult<Project> {
         let now = Local::now();
@@ -88,6 +101,7 @@ impl<'a> ProjectService<'a> {
         Ok(data)
     }
 
+    ///删除项目
     pub async fn delete_project(&self, id: i32) -> ServiceResult<()> {
         let begin = self.service.storage.conn.begin().await?;
         let project_storage = ProjectStorage::new(&begin);

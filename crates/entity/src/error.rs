@@ -2,7 +2,10 @@ use sea_orm::DbErr;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
-pub enum EntityKind {}
+pub enum EntityKind {
+    #[error("ProjectNotFound")]
+    ProjectNotFound,
+}
 
 #[derive(Debug, Error)]
 pub enum EntityError {
