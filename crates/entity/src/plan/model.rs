@@ -7,6 +7,7 @@ pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
     pub name: String,
+    pub project_id: i32,
     pub create_at: ChronoDateTime,
     pub update_at: ChronoDateTime,
     pub dead_at: ChronoDateTime,

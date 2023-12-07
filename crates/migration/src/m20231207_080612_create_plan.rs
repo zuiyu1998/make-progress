@@ -22,6 +22,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(PlanColumn::Name).string().not_null())
                     .col(ColumnDef::new(PlanColumn::CreateAt).date_time().not_null())
                     .col(ColumnDef::new(PlanColumn::UpdateAt).date_time().not_null())
+                    .col(ColumnDef::new(PlanColumn::ProjectId).integer().not_null())
                     .col(ColumnDef::new(PlanColumn::DeadAt).date_time())
                     .col(
                         ColumnDef::new(PlanColumn::IsDelete)
