@@ -4,11 +4,14 @@ use serde::{Deserialize, Serialize};
 
 use super::Project;
 
+mod dto;
+
+pub use dto::*;
+
 #[derive(Serialize, Deserialize)]
 pub struct Plan {
     pub id: i32,
     pub name: String,
-    pub background: Option<String>,
     pub create_at: NaiveDateTime,
     pub update_at: NaiveDateTime,
     pub dead_at: NaiveDateTime,
@@ -21,13 +24,12 @@ pub struct PlanService<'a> {
 }
 
 impl<'a> PlanService<'a> {
-    pub async fn from_project(
-        project_id: i32,
-        service: &'a Service,
-    ) -> ServiceResult<Option<Self>> {
-        let _project_service = ProjectService::new(service);
+    pub async fn from_project(project_id: i32, service: &'a Service) -> ServiceResult<Self> {
+        let project_service = ProjectService::new(service);
 
-        Ok(None)
+        let project = project_service.get_project(project_id).await?;
+
+        Ok(PlanService::new(project, service))
     }
 
     pub fn new(project: Project, service: &'a Service) -> Self {
@@ -35,7 +37,7 @@ impl<'a> PlanService<'a> {
     }
 
     //创建计划
-    pub fn create_plan(&self) -> ServiceResult<()> {
+    pub fn create_plan(&self, form: PlanForm) -> ServiceResult<()> {
         Ok(())
     }
 
