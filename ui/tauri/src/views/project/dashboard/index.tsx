@@ -68,7 +68,7 @@ function Dashboard() {
       <Row gutter={16}>
         {data.map((item) => {
           return (
-            <Col span={6} key={item.id}>
+            <Col span={12} key={item.id}>
               <ProjectItem {...item} />
             </Col>
           );

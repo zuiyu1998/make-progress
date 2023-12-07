@@ -1,10 +1,10 @@
 export type Project = {
   id: number;
-  name: String;
-  background?: String;
-  create_at: String;
-  update_at: String;
-  end_at?: String;
+  name: string;
+  background?: string;
+  create_at: string;
+  update_at: string;
+  end_at?: string;
   link_list: Link[];
 };
 
@@ -19,6 +19,6 @@ export type ProjectList = {
 };
 
 export type ProjectForm = {
-  name: String;
-  end_at?: String;
+  name: string;
+  end_at?: string;
 };

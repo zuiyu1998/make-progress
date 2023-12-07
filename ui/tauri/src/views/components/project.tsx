@@ -1,14 +1,14 @@
 import { Project } from '/@/apis/project/model';
-
-import classNames from './project.module.less';
+import { dateFormat } from '/@/utils/date_format';
+import classNames from './index.module.less';
 
 export type ProjectItemProp = {
   id: number;
-  name: String;
-  background?: String;
-  create_at: String;
-  update_at: String;
-  end_at?: String;
+  name: string;
+  background?: string;
+  create_at: string;
+  update_at: string;
+  end_at?: string;
 };
 
 export function intoProjectItemProp(project: Project): ProjectItemProp {
@@ -16,16 +16,26 @@ export function intoProjectItemProp(project: Project): ProjectItemProp {
     id: project.id,
     name: project.name,
     background: project.background,
-    create_at: project.create_at,
-    update_at: project.update_at,
+    create_at: dateFormat(project.create_at),
+    update_at: dateFormat(project.update_at),
     end_at: project.end_at,
   };
 }
 
+export type ProjectItemBackgroudProp = {
+  background?: String;
+};
+
+export function ProjectItemBackgroud(props: ProjectItemBackgroudProp) {
+  const { background } = props;
+
+  return <div className={classNames['project-backgroud']}>{background}</div>;
+}
+
 export function ProjectItem(props: ProjectItemProp) {
   return (
-    <div className={classNames.project}>
-      <div>{props.background}</div>
+    <div className={classNames['project']}>
+      <ProjectItemBackgroud background={props.background} />
       <div>{props.name}</div>
       <div>{props.end_at}</div>
       <div>
