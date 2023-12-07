@@ -1,5 +1,6 @@
 use rc_storage::Storage;
 
+mod plan;
 mod project;
 
 pub use project::*;
