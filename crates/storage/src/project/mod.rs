@@ -1,7 +1,7 @@
 use crate::StorageResult;
 use rc_entity::{
-    prelude::{ProjectColumn, ProjectDb, ProjectEntity, ProjectModelDto},
-    sea_orm::{ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter},
+    prelude::{ProjectDb, ProjectEntity, ProjectModelDto},
+    sea_orm::{ConnectionTrait, EntityTrait, PaginatorTrait},
 };
 
 mod dto;

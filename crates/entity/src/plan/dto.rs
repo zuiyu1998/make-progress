@@ -7,6 +7,7 @@ pub struct PlanModelDto {
     pub create_at: ChronoDateTime,
     pub update_at: ChronoDateTime,
     pub dead_at: ChronoDateTime,
+    pub project_id: i32,
 }
 
 impl PlanModelDto {
@@ -17,6 +18,7 @@ impl PlanModelDto {
             create_at,
             update_at,
             dead_at,
+            project_id,
             ..
         } = project;
 
@@ -26,6 +28,7 @@ impl PlanModelDto {
             create_at,
             update_at,
             dead_at,
+            project_id,
         }
     }
 }
@@ -37,11 +40,16 @@ pub struct PlanOption {
     pub create_at: Option<ChronoDateTime>,
     pub update_at: Option<ChronoDateTime>,
     pub dead_at: Option<ChronoDateTime>,
+    pub project_id: Option<i32>,
 }
 
 impl PlanOption {
     pub fn into_model(self) -> ActiveModel {
         let mut active: ActiveModel = Default::default();
+
+        assert_eq!(true, self.project_id.is_some());
+
+        active.project_id = Set(self.project_id.unwrap());
 
         if let Some(dead_at) = self.dead_at {
             active.dead_at = Set(dead_at);

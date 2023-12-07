@@ -1,7 +1,7 @@
 use crate::StorageResult;
 use rc_entity::{
-    prelude::{PlanColumn, PlanDb, PlanEntity, PlanModelDto},
-    sea_orm::{ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter},
+    prelude::{PlanDb, PlanEntity, PlanModelDto},
+    sea_orm::{ConnectionTrait, EntityTrait, PaginatorTrait},
 };
 
 mod dto;
@@ -25,7 +25,7 @@ impl<'a, C: ConnectionTrait> PlanStorage<'a, C> {
         Ok(())
     }
 
-    pub async fn create_Plan(&self, form: PlanStorageForm) -> StorageResult<PlanStorageModel> {
+    pub async fn create_plan(&self, form: PlanStorageForm) -> StorageResult<PlanStorageModel> {
         let option = form.into_option();
 
         let db = PlanDb::new(self.conn);
@@ -35,7 +35,7 @@ impl<'a, C: ConnectionTrait> PlanStorage<'a, C> {
         Ok(model)
     }
 
-    pub async fn find_Plan(&self, id: i32) -> StorageResult<PlanStorageModel> {
+    pub async fn find_plan(&self, id: i32) -> StorageResult<PlanStorageModel> {
         let db = PlanDb::new(self.conn);
 
         let model = db.get(id).await?.into();
@@ -43,7 +43,7 @@ impl<'a, C: ConnectionTrait> PlanStorage<'a, C> {
         Ok(model)
     }
 
-    pub fn update_Plan(&self, _update: PlanStorageUpdate) -> StorageResult<PlanStorageModel> {
+    pub fn update_plan(&self, _update: PlanStorageUpdate) -> StorageResult<PlanStorageModel> {
         todo!()
     }
 

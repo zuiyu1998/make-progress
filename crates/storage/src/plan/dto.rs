@@ -6,6 +6,7 @@ pub struct PlanStorageForm {
     pub create_at: NaiveDateTime,
     pub update_at: NaiveDateTime,
     pub dead_at: NaiveDateTime,
+    pub project_id: i32,
 }
 
 impl PlanStorageForm {
@@ -16,6 +17,7 @@ impl PlanStorageForm {
         option.create_at = Some(self.create_at);
         option.update_at = Some(self.update_at);
         option.dead_at = Some(self.dead_at);
+        option.project_id = Some(self.project_id);
 
         option
     }
@@ -29,6 +31,7 @@ pub struct PlanStorageModel {
     pub create_at: NaiveDateTime,
     pub update_at: NaiveDateTime,
     pub dead_at: NaiveDateTime,
+    pub project_id: i32,
 }
 
 pub struct PlanStorageList {
@@ -47,6 +50,7 @@ impl From<PlanModelDto> for PlanStorageModel {
             create_at,
             update_at,
             dead_at,
+            project_id,
         } = value;
 
         PlanStorageModel {
@@ -55,6 +59,7 @@ impl From<PlanModelDto> for PlanStorageModel {
             create_at,
             update_at,
             dead_at,
+            project_id,
         }
     }
 }

@@ -1,5 +1,9 @@
 use crate::{prelude::ProjectService, Service, ServiceResult};
-use rc_storage::chrono::{Local, NaiveDateTime};
+use migration::sea_orm::TransactionTrait;
+use rc_storage::{
+    chrono::{Local, NaiveDateTime},
+    prelude::{PlanStorage, PlanStorageModel},
+};
 use serde::{Deserialize, Serialize};
 
 use super::Project;
@@ -16,6 +20,28 @@ pub struct Plan {
     pub update_at: NaiveDateTime,
     pub dead_at: NaiveDateTime,
     pub project_id: i32,
+}
+
+impl From<PlanStorageModel> for Plan {
+    fn from(value: PlanStorageModel) -> Self {
+        let PlanStorageModel {
+            id,
+            name,
+            create_at,
+            update_at,
+            dead_at,
+            project_id,
+        } = value;
+
+        Plan {
+            id,
+            name,
+            create_at,
+            update_at,
+            dead_at,
+            project_id,
+        }
+    }
 }
 
 pub struct PlanService<'a> {
@@ -37,8 +63,19 @@ impl<'a> PlanService<'a> {
     }
 
     //创建计划
-    pub fn create_plan(&self, form: PlanForm) -> ServiceResult<()> {
-        Ok(())
+    pub async fn create_plan(&self, form: PlanForm) -> ServiceResult<Plan> {
+        let now = Local::now();
+
+        let form = form.into_storage_form(self.project.id, now.naive_local());
+        let begin = self.service.storage.conn.begin().await?;
+
+        let project_storage = PlanStorage::new(&begin);
+
+        let project = project_storage.create_plan(form).await?.into();
+
+        begin.commit().await?;
+
+        Ok(project)
     }
 
     //更改计划
