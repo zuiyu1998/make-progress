@@ -5,6 +5,8 @@ use thiserror::Error;
 pub enum EntityKind {
     #[error("ProjectNotFound")]
     ProjectNotFound,
+    #[error("PlanNotFound")]
+    PlanNotFound,
 }
 
 #[derive(Debug, Error)]
