@@ -1,5 +1,6 @@
 use rc_entity::sea_orm::DatabaseConnection;
 
+mod plan;
 mod project;
 
 mod error;
@@ -18,6 +19,7 @@ impl Storage {
 pub use error::*;
 
 pub mod prelude {
+    pub use crate::plan::*;
     pub use crate::project::*;
 }
 
