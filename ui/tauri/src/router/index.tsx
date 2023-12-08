@@ -1,3 +1,4 @@
+import { LAYOUT } from './consts';
 import Dashboard from '/@/views/dashboard';
 import ProjectCreate from '/@/views/project/create';
 import ProjectDashboard from '/@/views/project/dashboard';
@@ -6,8 +7,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <LAYOUT />,
     children: [
-      { index: true, element: <Dashboard /> },
+      { index: true, element: <ProjectDashboard /> },
       {
         path: '/dashboard',
         element: <Dashboard />,

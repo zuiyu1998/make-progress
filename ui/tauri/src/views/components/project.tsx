@@ -29,18 +29,20 @@ export type ProjectItemBackgroudProp = {
 export function ProjectItemBackgroud(props: ProjectItemBackgroudProp) {
   const { background } = props;
 
-  return <div className={classNames['project-backgroud']}>{background}</div>;
+  return <div className={classNames['project-background']}>{background}</div>;
 }
 
 export function ProjectItem(props: ProjectItemProp) {
   return (
     <div className={classNames['project']}>
       <ProjectItemBackgroud background={props.background} />
-      <div>{props.name}</div>
-      <div>{props.end_at}</div>
-      <div>
-        <div>{props.create_at}</div>
-        <div>{props.update_at}</div>
+      <div className={classNames['project-bottom']}>
+        <div className={classNames['project-title']}>{props.name}</div>
+        <div>{props.end_at}</div>
+        <div className={classNames['project-date-container']}>
+          <div>{props.create_at}</div>
+          <div>{props.update_at}</div>
+        </div>
       </div>
     </div>
   );
