@@ -1,4 +1,3 @@
-import { LAYOUT } from './consts';
 import Dashboard from '/@/views/dashboard';
 import ProjectCreate from '/@/views/project/create';
 import PlanCreate from '/@/views/plan/create';
@@ -8,7 +7,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <LAYOUT />,
     children: [
       { index: true, element: <ProjectDashboard /> },
       {

@@ -8,6 +8,7 @@ import {
 } from '/@/views/components/project';
 import { usePageConfig } from '/@/hooks/page';
 import classNames from './index.module.less';
+import { PageWrapper } from '/@/layout/page';
 
 export function useContent() {
   const [data, setData] = React.useState<ProjectItemProp[]>([]);
@@ -64,17 +65,19 @@ function Dashboard() {
   const { data } = useContent();
 
   return (
-    <div className={classNames['preject-dashboard']}>
-      <Row gutter={16}>
-        {data.map((item) => {
-          return (
-            <Col span={12} key={item.id}>
-              <ProjectItem {...item} />
-            </Col>
-          );
-        })}
-      </Row>
-    </div>
+    <PageWrapper contentFullHeight>
+      <div className={classNames['preject-dashboard']}>
+        <Row gutter={16}>
+          {data.map((item) => {
+            return (
+              <Col span={12} key={item.id}>
+                <ProjectItem {...item} />
+              </Col>
+            );
+          })}
+        </Row>
+      </div>
+    </PageWrapper>
   );
 }
 
