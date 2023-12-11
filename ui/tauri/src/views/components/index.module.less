@@ -1,6 +1,7 @@
 .project {
     width: 100%;
     background-color: white;
+    border-radius: 8px;
 
     &-background {
         height: 200px;
@@ -17,5 +18,28 @@
         line-height: 20px;
     }
 
-    &-date-container {}
+    &-date-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-top: 10px;
+    }
+
+    &-icon {
+        padding-right: 4px;
+    }
+
+    &-create-at {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    &-update-at {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
 }

@@ -1,6 +1,7 @@
 import { LAYOUT } from './consts';
 import Dashboard from '/@/views/dashboard';
 import ProjectCreate from '/@/views/project/create';
+import PlanCreate from '/@/views/plan/create';
 import ProjectDashboard from '/@/views/project/dashboard';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -24,6 +25,19 @@ const router = createBrowserRouter([
           {
             path: 'create',
             element: <ProjectCreate />,
+          },
+        ],
+      },
+      {
+        path: '/plan',
+        children: [
+          {
+            path: 'dashboard',
+            element: <ProjectDashboard />,
+          },
+          {
+            path: 'create',
+            element: <PlanCreate />,
           },
         ],
       },
