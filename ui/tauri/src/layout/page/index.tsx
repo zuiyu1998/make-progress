@@ -1,6 +1,8 @@
 import classNames from './index.module.less';
 import React, { PropsWithChildren } from 'react';
 
+export { TopNavigation } from './src/navigation';
+
 export type PageWrapperProps = PropsWithChildren & {
   contentFullHeight?: boolean;
 };

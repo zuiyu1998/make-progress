@@ -1,14 +1,16 @@
 import { Form, Input, Button, DatePicker } from 'antd';
 import { createProject } from '/@/apis/project';
+import { TopNavigation } from '/@/layout/page';
+import { useNavigate } from 'react-router-dom';
 
 function PlanCreateView() {
   const [form] = Form.useForm();
 
+  const navigate = useNavigate();
+
   async function onFinish() {
     try {
       const values = await form.validateFields();
-
-      console.log(values);
 
       createProject({
         name: values.name,
@@ -17,7 +19,11 @@ function PlanCreateView() {
   }
 
   return (
-    <div>
+    <TopNavigation
+      onBack={() => {
+        navigate(-1);
+      }}
+    >
       <Form form={form} onFinish={onFinish}>
         <Form.Item name='name' label='名称' required>
           <Input />
@@ -26,13 +32,13 @@ function PlanCreateView() {
           <DatePicker />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+        <Form.Item>
           <Button type='primary' htmlType='submit'>
             保存
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </TopNavigation>
   );
 }
 

@@ -8,6 +8,7 @@ function Icon(props: IconProps) {
 
 export enum IconClass {
   Time = 'icon-time',
+  Back = 'icon-back',
 }
 
 export default Icon;
