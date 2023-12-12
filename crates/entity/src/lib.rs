@@ -1,5 +1,6 @@
 mod plan;
 mod project;
+mod task;
 
 pub mod error;
 pub use sea_orm;
