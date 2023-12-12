@@ -29,14 +29,14 @@ impl PlanForm {
 pub struct PlanListParams {
     pub page_size: u64,
     pub page: u64,
-    pub project_id: Option<i32>,
 }
-impl From<PlanListParams> for PlanStorageListParams {
-    fn from(value: PlanListParams) -> Self {
+
+impl PlanListParams {
+    pub fn int_storage(self, project_id: i32) -> PlanStorageListParams {
         PlanStorageListParams {
-            page_size: value.page_size,
-            page: value.page,
-            project_id: value.project_id,
+            page_size: self.page_size,
+            page: self.page,
+            project_id: Some(project_id),
         }
     }
 }

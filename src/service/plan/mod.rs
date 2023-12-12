@@ -80,7 +80,7 @@ impl<'a> PlanService<'a> {
 
     ///获取项目列表
     pub async fn get_plan_list(&self, params: PlanListParams) -> ServiceResult<PlanList> {
-        let params = params.into();
+        let params = params.int_storage(self.project.id);
 
         let begin = self.service.storage.conn.begin().await?;
 
