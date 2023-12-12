@@ -3,7 +3,7 @@ import { createPlan } from '/@/apis/plan';
 import { TopNavigation } from '/@/layout/page';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import classNames from './index.module.less';
-import { dateFormat } from '/@/utils/date_format';
+import { dateFormat, timestamp } from '/@/utils/date_format';
 function PlanCreateView() {
   const [form] = Form.useForm();
 
@@ -24,7 +24,7 @@ function PlanCreateView() {
 
       await createPlan(Number(projectId), {
         ...values,
-        dead_at: dateFormat(values['dead_at']),
+        dead_at: timestamp(values['dead_at']),
       });
     } catch (error) {
       console.log(error);

@@ -11,3 +11,7 @@ export function dateFormat(
 ) {
   return dayjs(date).format(formate);
 }
+
+export function timestamp(date?: string) {
+  return dayjs(date).unix();
+}
