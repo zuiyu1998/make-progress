@@ -8,6 +8,7 @@ pub struct TaskModelDto {
     pub plan_id: i32,
     pub create_at: ChronoDateTime,
     pub update_at: ChronoDateTime,
+    pub start_at: Option<ChronoDateTime>,
     pub remark: String,
     pub duration: i32,
     pub status: TaskEntityStatus,
@@ -27,6 +28,7 @@ impl TaskModelDto {
             duration,
             status,
             real_duration,
+            start_at,
             ..
         } = project;
 
@@ -41,6 +43,7 @@ impl TaskModelDto {
             duration,
             status,
             real_duration,
+            start_at,
         }
     }
 }
@@ -57,6 +60,7 @@ pub struct TaskOption {
     pub duration: Option<i32>,
     pub real_duration: Option<i32>,
     pub status: Option<TaskEntityStatus>,
+    pub start_at: Option<ChronoDateTime>,
 }
 
 impl TaskOption {

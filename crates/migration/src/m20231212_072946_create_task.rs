@@ -23,6 +23,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(TaskColumn::CreateAt).date_time().not_null())
                     .col(ColumnDef::new(TaskColumn::UpdateAt).date_time().not_null())
                     .col(ColumnDef::new(TaskColumn::ProjectId).integer().not_null())
+                    .col(ColumnDef::new(TaskColumn::StartAt).date_time())
                     .col(ColumnDef::new(TaskColumn::PlanId).integer().not_null())
                     .col(ColumnDef::new(TaskColumn::Status).string().not_null())
                     .col(ColumnDef::new(TaskColumn::Duration).integer().not_null())

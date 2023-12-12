@@ -10,6 +10,7 @@ pub struct TaskStorageForm {
     pub duration: i32,
     pub real_duration: i32,
     pub status: TaskStorageStatus,
+    pub start_at: Option<NaiveDateTime>,
 }
 
 pub enum TaskStorageStatus {
@@ -45,6 +46,7 @@ impl TaskStorageForm {
     pub fn into_option(self) -> TaskOption {
         let mut option = TaskOption::default();
 
+        option.start_at = self.start_at;
         option.name = Some(self.name);
         option.create_at = Some(self.create_at);
         option.update_at = Some(self.update_at);
@@ -71,6 +73,7 @@ pub struct TaskStorageModel {
     pub duration: i32,
     pub status: TaskStorageStatus,
     pub real_duration: i32,
+    pub start_at: Option<NaiveDateTime>,
 }
 
 pub struct TaskStorageList {
@@ -94,6 +97,7 @@ impl From<TaskModelDto> for TaskStorageModel {
             duration,
             status,
             real_duration,
+            start_at,
         } = value;
 
         TaskStorageModel {
@@ -107,6 +111,7 @@ impl From<TaskModelDto> for TaskStorageModel {
             remark,
             status: TaskStorageStatus::from(status),
             plan_id,
+            start_at,
         }
     }
 }
