@@ -1,5 +1,5 @@
 import { defApi } from '../../utils/api/index';
-import { PlanForm } from './model';
+import { PlanForm, PlanList } from './model';
 
 export interface PageParams {
   page_size: number;
@@ -12,7 +12,7 @@ enum Api {
 }
 
 export async function createPlan(project_id: number, form: PlanForm) {
-  return defApi.invoke<void>(Api.CreatePlan, {
+  return defApi.invoke<PlanList>(Api.CreatePlan, {
     form,
     project_id,
   });
