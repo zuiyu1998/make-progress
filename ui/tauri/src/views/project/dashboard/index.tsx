@@ -66,7 +66,7 @@ function Dashboard() {
 
   return (
     <PageWrapper contentFullHeight>
-      <div className={classNames['preject-dashboard']}>
+      <div className={classNames['project-dashboard']}>
         <Row gutter={16}>
           {data.map((item) => {
             return (

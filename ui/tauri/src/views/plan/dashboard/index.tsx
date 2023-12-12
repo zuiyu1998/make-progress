@@ -9,6 +9,7 @@ import {
 import { usePageConfig } from '/@/hooks/page';
 import classNames from './index.module.less';
 import { useSearchParams } from 'react-router-dom';
+import { PageWrapper } from '/@/layout/page';
 
 export function useContent() {
   const [data, setData] = React.useState<PlanItemProp[]>([]);
@@ -73,17 +74,19 @@ function Dashboard() {
   const { data } = useContent();
 
   return (
-    <div className={classNames['preject-dashboard']}>
-      <Row gutter={16}>
-        {data.map((item) => {
-          return (
-            <Col span={12} key={item.id}>
-              <PlanItem {...item} />
-            </Col>
-          );
-        })}
-      </Row>
-    </div>
+    <PageWrapper contentFullHeight>
+      <div className={classNames['project-dashboard']}>
+        <Row gutter={16}>
+          {data.map((item) => {
+            return (
+              <Col span={12} key={item.id}>
+                <PlanItem {...item} />
+              </Col>
+            );
+          })}
+        </Row>
+      </div>
+    </PageWrapper>
   );
 }
 

@@ -3,6 +3,7 @@ import { createPlan } from '/@/apis/plan';
 import { TopNavigation } from '/@/layout/page';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import classNames from './index.module.less';
+import { dateFormat } from '/@/utils/date_format';
 function PlanCreateView() {
   const [form] = Form.useForm();
 
@@ -21,8 +22,13 @@ function PlanCreateView() {
         return;
       }
 
-      await createPlan(Number(projectId), { ...values });
-    } catch (error) {}
+      await createPlan(Number(projectId), {
+        ...values,
+        dead_at: dateFormat(values['dead_at']),
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

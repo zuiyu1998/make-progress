@@ -2,6 +2,7 @@ import Dashboard from '/@/views/dashboard';
 import ProjectCreate from '/@/views/project/create';
 import PlanCreate from '/@/views/plan/create';
 import ProjectDashboard from '/@/views/project/dashboard';
+import PlanDashboard from '/@/views/plan/dashboard';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'dashboard',
-            element: <ProjectDashboard />,
+            element: <PlanDashboard />,
           },
           {
             path: 'create',

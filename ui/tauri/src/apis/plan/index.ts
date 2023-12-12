@@ -11,16 +11,18 @@ enum Api {
   GetPlanList = 'get_plan_list',
 }
 
-export async function createPlan(project_id: number, form: PlanForm) {
+export async function createPlan(projectId: number, form: PlanForm) {
+  console.log(form, projectId);
+
   return defApi.invoke<void>(Api.CreatePlan, {
     form,
-    project_id,
+    projectId,
   });
 }
 
-export async function getPlanList(project_id: number, params: PageParams) {
+export async function getPlanList(projectId: number, params: PageParams) {
   return defApi.invoke<PlanList>(Api.CreatePlan, {
     params,
-    project_id,
+    projectId,
   });
 }
