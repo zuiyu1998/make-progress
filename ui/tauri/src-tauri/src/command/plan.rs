@@ -1,6 +1,6 @@
 use crate::TauriResult;
 use make_progress_core::{
-    prelude::{PlanForm, PlanListParams, PlanService},
+    prelude::{PlanForm, PlanList, PlanListParams, PlanService},
     Service,
 };
 use tauri::State;
@@ -23,10 +23,10 @@ pub async fn get_plan_list(
     service: State<'_, Service>,
     project_id: i32,
     params: PlanListParams,
-) -> TauriResult<()> {
+) -> TauriResult<PlanList> {
     let plan_service = PlanService::from_project(project_id, &service).await?;
 
-    plan_service.get_plan_list(params).await?;
+    let list: PlanList = plan_service.get_plan_list(params).await?;
 
-    Ok(())
+    Ok(list)
 }
