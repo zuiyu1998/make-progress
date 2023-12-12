@@ -11,4 +11,5 @@ pub mod prelude {
 
     pub use crate::plan::*;
     pub use crate::project::*;
+    pub use crate::task::*;
 }
