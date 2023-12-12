@@ -31,7 +31,6 @@ impl MigrationTrait for Migration {
                             .integer()
                             .not_null(),
                     )
-                    .col(ColumnDef::new(TaskColumn::DeadAt).date_time())
                     .col(
                         ColumnDef::new(TaskColumn::IsDelete)
                             .boolean()

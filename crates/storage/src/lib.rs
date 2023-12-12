@@ -2,6 +2,7 @@ use rc_entity::sea_orm::DatabaseConnection;
 
 mod plan;
 mod project;
+mod task;
 
 mod error;
 

@@ -11,7 +11,6 @@ pub struct Model {
     pub plan_id: i32,
     pub create_at: ChronoDateTime,
     pub update_at: ChronoDateTime,
-    pub dead_at: ChronoDateTime,
     pub is_delete: bool,
     pub is_enable: bool,
     pub remark: String,
