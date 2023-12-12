@@ -7,6 +7,6 @@ pub fn get_handlers() -> Box<dyn Fn(tauri::Invoke<tauri::Wry>) + Send + Sync> {
         project::get_project_list,
         project::delete_project,
         plan::create_plan,
-        plan::plan_list,
+        plan::get_plan_list,
     ])
 }

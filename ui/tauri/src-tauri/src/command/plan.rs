@@ -19,7 +19,7 @@ pub async fn create_plan(
 }
 
 #[tauri::command]
-pub async fn plan_list(
+pub async fn get_plan_list(
     service: State<'_, Service>,
     project_id: i32,
     params: PlanListParams,
