@@ -79,7 +79,15 @@ impl<'a> PlanService<'a> {
     }
 
     pub async fn get_plan(&self, plan_id: i32) -> ServiceResult<Plan> {
-        todo!()
+        let begin = self.service.storage.conn.begin().await?;
+
+        let plan_storage = PlanStorage::new(&begin);
+
+        let plan = plan_storage.find_plan(plan_id).await?.into();
+
+        begin.commit().await?;
+
+        Ok(plan)
     }
 
     ///获取项目列表
