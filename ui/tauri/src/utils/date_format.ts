@@ -13,5 +13,5 @@ export function dateFormat(
 }
 
 export function timestamp(date?: string) {
-  return dayjs(date).unix();
+  return dayjs(date).valueOf();
 }

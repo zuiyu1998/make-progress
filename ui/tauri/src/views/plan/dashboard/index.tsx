@@ -20,7 +20,6 @@ export function useContent() {
 
   async function getData(isClear: boolean) {
     const projectId = searchParams.get('project_id');
-
     if (!projectId) {
       message.error('项目不存在');
       return;
@@ -41,6 +40,8 @@ export function useContent() {
         page: page,
         page_size: pageSize,
       });
+
+      console.log(res);
 
       setHasNext(res.has_next);
 

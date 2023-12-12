@@ -68,7 +68,7 @@ export function PlanItem(props: PlanItemProp) {
         <ProjectItemBackgroud background={props.background} />
         <div className={classNames['project-bottom']}>
           <div className={classNames['project-title']}>{props.name}</div>
-          <div>{props.dead_at}</div>
+          <div>{dateFormat(props.dead_at, DateFormat.Year)}</div>
           <div className={classNames['project-date-container']}>
             <Tooltip title={dateFormat(props.create_at)}>
               <div className={classNames['project-create-at']}>
