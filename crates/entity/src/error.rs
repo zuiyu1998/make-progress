@@ -7,6 +7,8 @@ pub enum EntityKind {
     ProjectNotFound,
     #[error("PlanNotFound")]
     PlanNotFound,
+    #[error("TaskNotFound")]
+    TaskNotFound,
 }
 
 #[derive(Debug, Error)]
