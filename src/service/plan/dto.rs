@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
 pub struct PlanForm {
     pub name: String,
-    pub dead_at: NaiveDateTime,
+    pub dead_at: i64,
 }
 
 impl PlanForm {
@@ -19,7 +19,7 @@ impl PlanForm {
             name,
             create_at: now.clone(),
             update_at: now,
-            dead_at,
+            dead_at: NaiveDateTime::from_timestamp_millis(dead_at).unwrap(),
             project_id,
         }
     }
