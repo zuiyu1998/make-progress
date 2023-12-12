@@ -12,14 +12,14 @@ enum Api {
 }
 
 export async function createPlan(project_id: number, form: PlanForm) {
-  return defApi.invoke<PlanList>(Api.CreatePlan, {
+  return defApi.invoke<void>(Api.CreatePlan, {
     form,
     project_id,
   });
 }
 
 export async function getPlanList(project_id: number, params: PageParams) {
-  return defApi.invoke<void>(Api.CreatePlan, {
+  return defApi.invoke<PlanList>(Api.CreatePlan, {
     params,
     project_id,
   });

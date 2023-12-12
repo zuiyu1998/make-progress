@@ -1,21 +1,30 @@
-import { Row, Col } from 'antd';
-import { getProjectList } from '/@/apis/project';
+import { Row, Col, message } from 'antd';
+import { getPlanList } from '/@/apis/plan';
 import React from 'react';
 import {
-  ProjectItem,
-  intoProjectItemProp,
-  ProjectItemProp,
-} from '/@/views/components/project';
+  PlanItem,
+  intoPlanItemProp,
+  PlanItemProp,
+} from '/@/views/components/plan';
 import { usePageConfig } from '/@/hooks/page';
 import classNames from './index.module.less';
+import { useSearchParams } from 'react-router-dom';
 
 export function useContent() {
-  const [data, setData] = React.useState<ProjectItemProp[]>([]);
+  const [data, setData] = React.useState<PlanItemProp[]>([]);
+  const [searchParams] = useSearchParams();
 
   const { page, pageSize, loading, setLoading, hasNext, setHasNext, setPage } =
     usePageConfig();
 
   async function getData(isClear: boolean) {
+    const projectId = searchParams.get('project_id');
+
+    if (!projectId) {
+      message.error('项目不存在');
+      return;
+    }
+
     if (loading) {
       return;
     }
@@ -27,7 +36,7 @@ export function useContent() {
     setLoading(true);
 
     try {
-      const res = await getProjectList({
+      const res = await getPlanList(Number(projectId), {
         page: page,
         page_size: pageSize,
       });
@@ -38,7 +47,7 @@ export function useContent() {
         setPage(page + 1);
       }
 
-      let newData = res.data.map((item) => intoProjectItemProp(item));
+      let newData = res.data.map((item) => intoPlanItemProp(item));
 
       if (isClear) {
         setData(newData);
@@ -69,7 +78,7 @@ function Dashboard() {
         {data.map((item) => {
           return (
             <Col span={12} key={item.id}>
-              <ProjectItem {...item} />
+              <PlanItem {...item} />
             </Col>
           );
         })}
