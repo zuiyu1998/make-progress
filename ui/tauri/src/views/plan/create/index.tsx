@@ -1,10 +1,12 @@
-import { Form, Input, Button, DatePicker } from 'antd';
-import { createProject } from '/@/apis/project';
+import { Form, Input, Button, DatePicker, message } from 'antd';
+import { createPlan } from '/@/apis/plan';
 import { TopNavigation } from '/@/layout/page';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import classNames from './index.module.less';
 function PlanCreateView() {
   const [form] = Form.useForm();
+
+  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
@@ -12,9 +14,14 @@ function PlanCreateView() {
     try {
       const values = await form.validateFields();
 
-      createProject({
-        name: values.name,
-      });
+      const projectId = searchParams.get('project_id');
+
+      if (!projectId) {
+        message.error('项目不存在');
+        return;
+      }
+
+      await createPlan(Number(projectId), { ...values });
     } catch (error) {}
   }
 
@@ -24,15 +31,30 @@ function PlanCreateView() {
         navigate(-1);
       }}
     >
-      <Form form={form} onFinish={onFinish}>
+      <Form
+        className={classNames['plan-create-form']}
+        form={form}
+        onFinish={onFinish}
+        labelCol={{
+          style: {
+            width: '150px',
+          },
+        }}
+      >
         <Form.Item name='name' label='名称' required>
           <Input />
         </Form.Item>
-        <Form.Item name='end_at' label='预计结束时间'>
+        <Form.Item name='dead_at' label='预计结束时间' required>
           <DatePicker />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item
+          wrapperCol={{
+            style: {
+              marginLeft: '150px',
+            },
+          }}
+        >
           <Button type='primary' htmlType='submit'>
             保存
           </Button>

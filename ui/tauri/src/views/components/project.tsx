@@ -52,6 +52,15 @@ export function ProjectItem(props: ProjectItemProp) {
     });
   }
 
+  function goPlanList() {
+    navigate({
+      pathname: '/plan/dashboard',
+      search: createSearchParams({
+        project_id: props.id.toString(),
+      }).toString(),
+    });
+  }
+
   return (
     <div
       onContextMenu={(e) => {
@@ -95,7 +104,8 @@ export function ProjectItem(props: ProjectItemProp) {
         direction='right'
         onClose={() => setOpen(false)}
       >
-        <MenuItem onClick={onCreateProject}>创建项目</MenuItem>
+        <MenuItem onClick={onCreateProject}>创建计划</MenuItem>
+        <MenuItem onClick={goPlanList}>计划列表</MenuItem>
       </ContextMenu>
     </div>
   );
