@@ -1,7 +1,7 @@
 use crate::StorageResult;
 use rc_entity::{
-    prelude::{PlanDb, PlanEntity, PlanModelDto},
-    sea_orm::{ConnectionTrait, EntityTrait, PaginatorTrait},
+    prelude::{PlanColumn, PlanDb, PlanEntity, PlanModelDto},
+    sea_orm::{ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter},
 };
 
 mod dto;
@@ -48,9 +48,15 @@ impl<'a, C: ConnectionTrait> PlanStorage<'a, C> {
     }
 
     pub async fn list(&self, params: PlanStorageListParams) -> StorageResult<PlanStorageList> {
-        let total = PlanEntity::find().count(self.conn).await?;
-        let sql = PlanEntity::find().paginate(self.conn, params.page_size);
-        let data = sql
+        let mut sql = PlanEntity::find();
+
+        if let Some(project_id) = params.project_id {
+            sql = sql.filter(PlanColumn::ProjectId.eq(project_id));
+        }
+
+        let total = sql.clone().count(self.conn).await?;
+        let paginator = sql.paginate(self.conn, params.page_size);
+        let data = paginator
             .fetch_page(params.page)
             .await?
             .into_iter()

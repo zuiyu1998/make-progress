@@ -67,4 +67,5 @@ impl From<PlanModelDto> for PlanStorageModel {
 pub struct PlanStorageListParams {
     pub page_size: u64,
     pub page: u64,
+    pub project_id: Option<i32>,
 }

@@ -78,6 +78,20 @@ impl<'a> PlanService<'a> {
         Ok(project)
     }
 
+    ///获取项目列表
+    pub async fn get_plan_list(&self, params: PlanListParams) -> ServiceResult<PlanList> {
+        let params = params.into();
+
+        let begin = self.service.storage.conn.begin().await?;
+
+        let project_storage = PlanStorage::new(&begin);
+        let data = project_storage.list(params).await?.into();
+
+        begin.commit().await?;
+
+        Ok(data)
+    }
+
     //更改计划
     pub fn update_plan(&self) -> ServiceResult<()> {
         Ok(())
