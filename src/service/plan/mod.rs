@@ -78,6 +78,10 @@ impl<'a> PlanService<'a> {
         Ok(project)
     }
 
+    pub async fn get_plan(&self, plan_id: i32) -> ServiceResult<Plan> {
+        todo!()
+    }
+
     ///获取项目列表
     pub async fn get_plan_list(&self, params: PlanListParams) -> ServiceResult<PlanList> {
         let params = params.int_storage(self.project.id);

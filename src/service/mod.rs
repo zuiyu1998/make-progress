@@ -2,6 +2,7 @@ use rc_storage::Storage;
 
 mod plan;
 mod project;
+mod task;
 
 pub use plan::*;
 pub use project::*;

@@ -10,11 +10,11 @@ mod dto;
 
 pub use dto::*;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 
 pub struct Link {}
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 
 pub struct Project {
     pub id: i32,
