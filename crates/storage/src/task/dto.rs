@@ -1,5 +1,5 @@
 use chrono::NaiveDateTime;
-use rc_entity::prelude::{TaskEntityStatus, TaskModelDto, TaskModelListParams, TaskOption};
+use rc_entity::prelude::{TaskModelDto, TaskModelListParams, TaskModelStatus, TaskOption};
 
 pub struct TaskStorageForm {
     pub name: String,
@@ -20,24 +20,24 @@ pub enum TaskStorageStatus {
     Playing,
 }
 
-impl From<TaskStorageStatus> for TaskEntityStatus {
+impl From<TaskStorageStatus> for TaskModelStatus {
     fn from(value: TaskStorageStatus) -> Self {
         match value {
-            TaskStorageStatus::Start => TaskEntityStatus::Start,
-            TaskStorageStatus::End => TaskEntityStatus::End,
-            TaskStorageStatus::Pause => TaskEntityStatus::Pause,
-            TaskStorageStatus::Playing => TaskEntityStatus::Playing,
+            TaskStorageStatus::Start => TaskModelStatus::Start,
+            TaskStorageStatus::End => TaskModelStatus::End,
+            TaskStorageStatus::Pause => TaskModelStatus::Pause,
+            TaskStorageStatus::Playing => TaskModelStatus::Playing,
         }
     }
 }
 
-impl From<TaskEntityStatus> for TaskStorageStatus {
-    fn from(value: TaskEntityStatus) -> Self {
+impl From<TaskModelStatus> for TaskStorageStatus {
+    fn from(value: TaskModelStatus) -> Self {
         match value {
-            TaskEntityStatus::Start => TaskStorageStatus::Start,
-            TaskEntityStatus::End => TaskStorageStatus::End,
-            TaskEntityStatus::Pause => TaskStorageStatus::Pause,
-            TaskEntityStatus::Playing => TaskStorageStatus::Playing,
+            TaskModelStatus::Start => TaskStorageStatus::Start,
+            TaskModelStatus::End => TaskStorageStatus::End,
+            TaskModelStatus::Pause => TaskStorageStatus::Pause,
+            TaskModelStatus::Playing => TaskStorageStatus::Playing,
         }
     }
 }

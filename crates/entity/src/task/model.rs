@@ -16,13 +16,13 @@ pub struct Model {
     pub is_enable: bool,
     pub remark: String,
     pub duration: i32,
-    pub status: TaskEntityStatus,
+    pub status: TaskModelStatus,
     pub real_duration: i32,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Deserialize, Serialize)]
 #[sea_orm(rs_type = "String", db_type = "String(None)")]
-pub enum TaskEntityStatus {
+pub enum TaskModelStatus {
     #[sea_orm(string_value = "Start")]
     Start,
     #[sea_orm(string_value = "End")]

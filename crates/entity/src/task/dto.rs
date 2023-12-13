@@ -1,4 +1,4 @@
-use super::model::{ActiveModel, Model, TaskEntityStatus};
+use super::model::{ActiveModel, Model, TaskModelStatus};
 use sea_orm::entity::{prelude::*, Set};
 
 pub struct TaskModelListParams {
@@ -21,7 +21,7 @@ pub struct TaskModelDto {
     pub start_at: Option<ChronoDateTime>,
     pub remark: String,
     pub duration: i32,
-    pub status: TaskEntityStatus,
+    pub status: TaskModelStatus,
     pub real_duration: i32,
 }
 
@@ -69,7 +69,7 @@ pub struct TaskOption {
     pub remark: Option<String>,
     pub duration: Option<i32>,
     pub real_duration: Option<i32>,
-    pub status: Option<TaskEntityStatus>,
+    pub status: Option<TaskModelStatus>,
     pub start_at: Option<ChronoDateTime>,
 }
 
