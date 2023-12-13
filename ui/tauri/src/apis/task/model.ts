@@ -23,4 +23,6 @@ export type TaskForm = {
   name: string;
   start_at?: number;
   duration: number;
+  project_id: number;
+  plan_id: number;
 };

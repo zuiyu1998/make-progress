@@ -11,14 +11,8 @@ enum Api {
   GetPlanList = 'get_plan_list',
 }
 
-export async function createTask(
-  projectId: number,
-  planId: number,
-  form: TaskForm
-) {
+export async function createTask(form: TaskForm) {
   return defApi.invoke<void>(Api.CreateTask, {
     form,
-    projectId,
-    planId,
   });
 }

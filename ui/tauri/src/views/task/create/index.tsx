@@ -23,9 +23,11 @@ function PlanCreateView() {
         return;
       }
 
-      await createTask(Number(projectId), Number(planId), {
+      await createTask({
         ...values,
         start_at: timestamp(values['start_at']),
+        project_id: Number(projectId),
+        plan_id: Number(planId),
       });
     } catch (error) {
       console.log(error);
