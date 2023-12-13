@@ -1,8 +1,10 @@
 use crate::{EntityKind, EntityResult};
-use sea_orm::{ActiveModelTrait, ColumnTrait, ConnectionTrait, EntityTrait, QueryFilter, Set};
+use sea_orm::{
+    ActiveModelTrait, ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter, Set,
+};
 
 use super::dto::{TaskModelDto, TaskOption};
-use super::{TaskActiveModel, TaskColumn, TaskEntity};
+use super::{TaskActiveModel, TaskColumn, TaskEntity, TaskEntityListParams};
 
 pub struct TaskDb<'a, C> {
     conn: &'a C,
@@ -50,5 +52,20 @@ impl<'a, C: ConnectionTrait> TaskDb<'a, C> {
         model.delete(self.conn).await?;
 
         Ok(())
+    }
+
+    pub async fn list(&self, parmas: TaskEntityListParams) -> EntityResult<Vec<TaskModelDto>> {
+        let sql = TaskEntity::find();
+
+        let sql = sql.paginate(self.conn, parmas.page_size);
+
+        let models = sql
+            .fetch_page(parmas.page)
+            .await?
+            .into_iter()
+            .map(|item| TaskModelDto::new(item))
+            .collect::<Vec<TaskModelDto>>();
+
+        Ok(models)
     }
 }

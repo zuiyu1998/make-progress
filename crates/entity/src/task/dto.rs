@@ -1,6 +1,11 @@
 use super::model::{ActiveModel, Model, TaskEntityStatus};
 use sea_orm::entity::{prelude::*, Set};
 
+pub struct TaskEntityListParams {
+    pub page_size: u64,
+    pub page: u64,
+}
+
 pub struct TaskModelDto {
     pub id: i32,
     pub name: String,
@@ -16,7 +21,7 @@ pub struct TaskModelDto {
 }
 
 impl TaskModelDto {
-    pub fn new(project: Model) -> Self {
+    pub fn new(task: Model) -> Self {
         let Model {
             id,
             name,
@@ -30,7 +35,7 @@ impl TaskModelDto {
             real_duration,
             start_at,
             ..
-        } = project;
+        } = task;
 
         TaskModelDto {
             id,
