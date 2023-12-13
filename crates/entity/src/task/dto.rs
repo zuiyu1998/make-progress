@@ -1,9 +1,14 @@
 use super::model::{ActiveModel, Model, TaskEntityStatus};
 use sea_orm::entity::{prelude::*, Set};
 
-pub struct TaskEntityListParams {
+pub struct TaskModelListParams {
     pub page_size: u64,
     pub page: u64,
+}
+
+pub struct TaskModelList {
+    pub data: Vec<TaskModelDto>,
+    pub total: u64,
 }
 
 pub struct TaskModelDto {

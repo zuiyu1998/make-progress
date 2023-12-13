@@ -1,5 +1,5 @@
 use chrono::NaiveDateTime;
-use rc_entity::prelude::{TaskEntityStatus, TaskModelDto, TaskOption};
+use rc_entity::prelude::{TaskEntityStatus, TaskModelDto, TaskModelListParams, TaskOption};
 
 pub struct TaskStorageForm {
     pub name: String,
@@ -120,4 +120,13 @@ pub struct TaskStorageListParams {
     pub page_size: u64,
     pub page: u64,
     pub project_id: Option<i32>,
+}
+
+impl From<TaskStorageListParams> for TaskModelListParams {
+    fn from(value: TaskStorageListParams) -> Self {
+        TaskModelListParams {
+            page_size: value.page_size,
+            page: value.page,
+        }
+    }
 }

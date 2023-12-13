@@ -4,7 +4,7 @@ use sea_orm::{
 };
 
 use super::dto::{TaskModelDto, TaskOption};
-use super::{TaskActiveModel, TaskColumn, TaskEntity, TaskEntityListParams};
+use super::{TaskActiveModel, TaskColumn, TaskEntity, TaskModelList, TaskModelListParams};
 
 pub struct TaskDb<'a, C> {
     conn: &'a C,
@@ -54,18 +54,23 @@ impl<'a, C: ConnectionTrait> TaskDb<'a, C> {
         Ok(())
     }
 
-    pub async fn list(&self, parmas: TaskEntityListParams) -> EntityResult<Vec<TaskModelDto>> {
+    pub async fn list(&self, params: TaskModelListParams) -> EntityResult<TaskModelList> {
         let sql = TaskEntity::find();
 
-        let sql = sql.paginate(self.conn, parmas.page_size);
+        let total = sql.clone().count(self.conn).await?;
+
+        let sql = sql.paginate(self.conn, params.page_size);
 
         let models = sql
-            .fetch_page(parmas.page)
+            .fetch_page(params.page)
             .await?
             .into_iter()
             .map(|item| TaskModelDto::new(item))
             .collect::<Vec<TaskModelDto>>();
 
-        Ok(models)
+        Ok(TaskModelList {
+            total,
+            data: models,
+        })
     }
 }
