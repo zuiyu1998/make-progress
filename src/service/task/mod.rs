@@ -1,15 +1,10 @@
-use crate::{
-    prelude::{PlanService, ProjectService},
-    Service, ServiceResult,
-};
+use crate::{Service, ServiceResult};
 use migration::sea_orm::TransactionTrait;
 use rc_storage::{
     chrono::{Local, NaiveDateTime},
     prelude::{TaskStorage, TaskStorageModel},
 };
 use serde::{Deserialize, Serialize};
-
-use super::{Plan, Project};
 
 mod dto;
 
@@ -65,39 +60,18 @@ impl From<TaskStorageModel> for Task {
 
 pub struct TaskService<'a> {
     service: &'a Service,
-    project: Project,
-    plan: Plan,
 }
 
 impl<'a> TaskService<'a> {
-    pub async fn from_project(
-        project_id: i32,
-        plan_id: i32,
-        service: &'a Service,
-    ) -> ServiceResult<Self> {
-        let project_service = ProjectService::new(service);
-        let project = project_service.get_project(project_id).await?;
-
-        let plan_service = PlanService::new(project.clone(), service);
-
-        let plan = plan_service.get_plan(plan_id).await?;
-
-        Ok(TaskService::new(project, plan, service))
-    }
-
-    pub fn new(project: Project, plan: Plan, service: &'a Service) -> Self {
-        Self {
-            service,
-            project,
-            plan,
-        }
+    pub fn new(service: &'a Service) -> Self {
+        Self { service }
     }
 
     //创建计划
     pub async fn create_task(&self, form: TaskForm) -> ServiceResult<Task> {
         let now = Local::now();
 
-        let form = form.into_storage_form(self.project.id, self.plan.id, now.naive_local());
+        let form = form.into_storage_form(now.naive_local());
         let begin = self.service.storage.conn.begin().await?;
 
         let project_storage = TaskStorage::new(&begin);
@@ -111,7 +85,7 @@ impl<'a> TaskService<'a> {
 
     ///获取项目列表
     pub async fn get_task_list(&self, params: TaskListParams) -> ServiceResult<TaskList> {
-        let params = params.int_storage(self.project.id);
+        let params = params.int_storage();
 
         let begin = self.service.storage.conn.begin().await?;
 

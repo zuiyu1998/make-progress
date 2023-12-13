@@ -4,6 +4,8 @@ use sea_orm::entity::{prelude::*, Set};
 pub struct TaskModelListParams {
     pub page_size: u64,
     pub page: u64,
+    pub project_id: Option<i32>,
+    pub plan_id: Option<i32>,
 }
 
 pub struct TaskModelList {

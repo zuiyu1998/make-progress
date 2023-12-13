@@ -10,6 +10,8 @@ pub struct TaskForm {
     pub name: String,
     pub start_at: Option<i64>,
     pub duration: i32,
+    pub project_id: i32,
+    pub plan_id: i32,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -43,16 +45,13 @@ impl From<TaskStorageStatus> for TaskStatus {
 }
 
 impl TaskForm {
-    pub fn into_storage_form(
-        self,
-        project_id: i32,
-        plan_id: i32,
-        now: NaiveDateTime,
-    ) -> TaskStorageForm {
+    pub fn into_storage_form(self, now: NaiveDateTime) -> TaskStorageForm {
         let TaskForm {
             name,
             start_at,
             duration,
+            plan_id,
+            project_id,
         } = self;
 
         TaskStorageForm {
@@ -73,14 +72,17 @@ impl TaskForm {
 pub struct TaskListParams {
     pub page_size: u64,
     pub page: u64,
+    pub project_id: Option<i32>,
+    pub plan_id: Option<i32>,
 }
 
 impl TaskListParams {
-    pub fn int_storage(self, project_id: i32) -> TaskStorageListParams {
+    pub fn int_storage(self) -> TaskStorageListParams {
         TaskStorageListParams {
             page_size: self.page_size,
             page: self.page,
-            project_id: Some(project_id),
+            project_id: self.project_id,
+            plan_id: self.plan_id,
         }
     }
 }

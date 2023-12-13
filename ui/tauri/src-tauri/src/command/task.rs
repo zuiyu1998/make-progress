@@ -6,13 +6,8 @@ use make_progress_core::{
 use tauri::State;
 
 #[tauri::command]
-pub async fn create_task(
-    service: State<'_, Service>,
-    project_id: i32,
-    plan_id: i32,
-    form: TaskForm,
-) -> TauriResult<()> {
-    let plan_service = TaskService::from_project(project_id, plan_id, &service).await?;
+pub async fn create_task(service: State<'_, Service>, form: TaskForm) -> TauriResult<()> {
+    let plan_service = TaskService::new(&service);
 
     plan_service.create_task(form).await?;
 

@@ -120,6 +120,7 @@ pub struct TaskStorageListParams {
     pub page_size: u64,
     pub page: u64,
     pub project_id: Option<i32>,
+    pub plan_id: Option<i32>,
 }
 
 impl From<TaskStorageListParams> for TaskModelListParams {
@@ -127,6 +128,8 @@ impl From<TaskStorageListParams> for TaskModelListParams {
         TaskModelListParams {
             page_size: value.page_size,
             page: value.page,
+            project_id: value.project_id,
+            plan_id: value.plan_id,
         }
     }
 }
