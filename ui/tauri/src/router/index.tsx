@@ -1,6 +1,7 @@
 import Dashboard from '/@/views/dashboard';
 import ProjectCreate from '/@/views/project/create';
 import PlanCreate from '/@/views/plan/create';
+import TaskCreate from '/@/views/task/create';
 import ProjectDashboard from '/@/views/project/dashboard';
 import PlanDashboard from '/@/views/plan/dashboard';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -37,6 +38,15 @@ const router = createBrowserRouter([
           {
             path: 'create',
             element: <PlanCreate />,
+          },
+        ],
+      },
+      {
+        path: '/task',
+        children: [
+          {
+            path: 'create',
+            element: <TaskCreate />,
           },
         ],
       },

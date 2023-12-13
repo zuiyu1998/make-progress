@@ -46,9 +46,10 @@ export function PlanItem(props: PlanItemProp) {
 
   function onCreateProject() {
     navigate({
-      pathname: '/plan/create',
+      pathname: '/task/create',
       search: createSearchParams({
-        project_id: props.id.toString(),
+        project_id: props.project_id.toString(),
+        plan_id: props.id.toString(),
       }).toString(),
     });
   }
