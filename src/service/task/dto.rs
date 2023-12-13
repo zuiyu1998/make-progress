@@ -10,8 +10,6 @@ pub struct TaskForm {
     pub name: String,
     pub start_at: Option<i64>,
     pub duration: i32,
-    pub real_duration: i32,
-    pub status: TaskStatus,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -55,8 +53,6 @@ impl TaskForm {
             name,
             start_at,
             duration,
-            real_duration,
-            status,
         } = self;
 
         TaskStorageForm {
@@ -66,8 +62,8 @@ impl TaskForm {
             project_id,
             plan_id,
             duration,
-            real_duration,
-            status: TaskStorageStatus::from(status),
+            real_duration: 0,
+            status: TaskStorageStatus::Start,
             start_at: start_at.and_then(|millis| NaiveDateTime::from_timestamp_millis(millis)),
         }
     }

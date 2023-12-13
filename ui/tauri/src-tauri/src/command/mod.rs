@@ -1,5 +1,6 @@
 pub mod plan;
 pub mod project;
+mod task;
 
 pub fn get_handlers() -> Box<dyn Fn(tauri::Invoke<tauri::Wry>) + Send + Sync> {
     Box::new(tauri::generate_handler![
@@ -8,5 +9,6 @@ pub fn get_handlers() -> Box<dyn Fn(tauri::Invoke<tauri::Wry>) + Send + Sync> {
         project::delete_project,
         plan::create_plan,
         plan::get_plan_list,
+        task::create_task,
     ])
 }

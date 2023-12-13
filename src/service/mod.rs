@@ -6,6 +6,7 @@ mod task;
 
 pub use plan::*;
 pub use project::*;
+pub use task::*;
 
 #[derive(Clone)]
 pub struct Service {

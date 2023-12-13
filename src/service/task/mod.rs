@@ -124,7 +124,7 @@ impl<'a> TaskService<'a> {
     }
 
     //更改计划
-    pub fn update_Task(&self) -> ServiceResult<()> {
+    pub fn update_task(&self) -> ServiceResult<()> {
         Ok(())
     }
 
