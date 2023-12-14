@@ -1,7 +1,9 @@
 use crate::{EntityKind, EntityResult};
-use sea_orm::{ActiveModelTrait, ColumnTrait, ConnectionTrait, EntityTrait, QueryFilter, Set};
+use sea_orm::{
+    ActiveModelTrait, ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter, Set,
+};
 
-use super::dto::{ProjectModelDto, ProjectOption};
+use super::dto::{ProjectModelDto, ProjectModelList, ProjectModelListParams, ProjectOption};
 use super::{ProjectActiveModel, ProjectColumn, ProjectEntity};
 
 pub struct ProjectDb<'a, C> {
@@ -50,5 +52,25 @@ impl<'a, C: ConnectionTrait> ProjectDb<'a, C> {
         model.delete(self.conn).await?;
 
         Ok(())
+    }
+
+    pub async fn list(&self, params: ProjectModelListParams) -> EntityResult<ProjectModelList> {
+        let sql = ProjectEntity::find();
+
+        let total = sql.clone().count(self.conn).await?;
+
+        let sql = sql.paginate(self.conn, params.page_size);
+
+        let models = sql
+            .fetch_page(params.page)
+            .await?
+            .into_iter()
+            .map(|item| ProjectModelDto::new(item))
+            .collect::<Vec<ProjectModelDto>>();
+
+        Ok(ProjectModelList {
+            total,
+            data: models,
+        })
     }
 }

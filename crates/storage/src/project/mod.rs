@@ -1,8 +1,5 @@
 use crate::StorageResult;
-use rc_entity::{
-    prelude::{ProjectDb, ProjectEntity, ProjectModelDto},
-    sea_orm::{ConnectionTrait, EntityTrait, PaginatorTrait},
-};
+use rc_entity::{prelude::ProjectDb, sea_orm::ConnectionTrait};
 
 mod dto;
 
@@ -57,26 +54,32 @@ impl<'a, C: ConnectionTrait> ProjectStorage<'a, C> {
         &self,
         params: ProjectStorageListParams,
     ) -> StorageResult<ProjectStorageList> {
-        let total = ProjectEntity::find().count(self.conn).await?;
-        let sql = ProjectEntity::find().paginate(self.conn, params.page_size);
-        let data = sql
-            .fetch_page(params.page)
-            .await?
-            .into_iter()
-            .map(|item| ProjectModelDto::new(item).into())
-            .collect::<Vec<ProjectStorageModel>>();
+        let page_size = params.page_size;
+        let mut page = params.page;
+
+        let db = ProjectDb::new(self.conn);
+
+        let list = db.list(params.into()).await?;
 
         let mut has_next = true;
 
-        if data.len() < params.page_size as usize {
+        if list.data.len() < page_size as usize {
             has_next = false;
         }
 
+        if has_next {
+            page = page + 1;
+        }
+
         Ok(ProjectStorageList {
-            total,
-            data,
-            page: params.page,
-            page_size: params.page_size,
+            total: list.total,
+            data: list
+                .data
+                .into_iter()
+                .map(|model| model.into())
+                .collect::<Vec<ProjectStorageModel>>(),
+            page,
+            page_size,
             has_next,
         })
     }

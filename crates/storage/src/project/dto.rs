@@ -1,5 +1,5 @@
 use chrono::NaiveDateTime;
-use rc_entity::prelude::{ProjectModelDto, ProjectOption};
+use rc_entity::prelude::{ProjectModelDto, ProjectModelListParams, ProjectOption};
 
 pub struct ProjectStorageForm {
     pub name: String,
@@ -67,4 +67,13 @@ impl From<ProjectModelDto> for ProjectStorageModel {
 pub struct ProjectStorageListParams {
     pub page_size: u64,
     pub page: u64,
+}
+
+impl From<ProjectStorageListParams> for ProjectModelListParams {
+    fn from(value: ProjectStorageListParams) -> Self {
+        ProjectModelListParams {
+            page_size: value.page_size,
+            page: value.page,
+        }
+    }
 }
