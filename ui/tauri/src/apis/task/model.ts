@@ -26,3 +26,11 @@ export type TaskForm = {
   project_id: number;
   plan_id: number;
 };
+
+export type TaskList = {
+  data: Task[];
+  total: number;
+  page_size: number;
+  page: number;
+  has_next: boolean;
+};
