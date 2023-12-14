@@ -10,5 +10,6 @@ pub fn get_handlers() -> Box<dyn Fn(tauri::Invoke<tauri::Wry>) + Send + Sync> {
         plan::create_plan,
         plan::get_plan_list,
         task::create_task,
+        task::get_task_list,
     ])
 }
