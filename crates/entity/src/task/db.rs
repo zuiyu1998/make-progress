@@ -55,7 +55,15 @@ impl<'a, C: ConnectionTrait> TaskDb<'a, C> {
     }
 
     pub async fn list(&self, params: TaskModelListParams) -> EntityResult<TaskModelList> {
-        let sql = TaskEntity::find();
+        let mut sql = TaskEntity::find();
+
+        if let Some(project_id) = params.project_id {
+            sql = sql.filter(TaskColumn::ProjectId.eq(project_id));
+        }
+
+        if let Some(plan_id) = params.plan_id {
+            sql = sql.filter(TaskColumn::PlanId.eq(plan_id));
+        }
 
         let total = sql.clone().count(self.conn).await?;
 
