@@ -1,7 +1,9 @@
 use crate::{EntityKind, EntityResult};
-use sea_orm::{ActiveModelTrait, ColumnTrait, ConnectionTrait, EntityTrait, QueryFilter, Set};
+use sea_orm::{
+    ActiveModelTrait, ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter, Set,
+};
 
-use super::dto::{PlanModelDto, PlanOption};
+use super::dto::{PlanModelDto, PlanModelList, PlanModelListParams, PlanOption};
 use super::{PlanActiveModel, PlanColumn, PlanEntity};
 
 pub struct PlanDb<'a, C> {
@@ -50,5 +52,25 @@ impl<'a, C: ConnectionTrait> PlanDb<'a, C> {
         model.delete(self.conn).await?;
 
         Ok(())
+    }
+
+    pub async fn list(&self, params: PlanModelListParams) -> EntityResult<PlanModelList> {
+        let sql = PlanEntity::find();
+
+        let total = sql.clone().count(self.conn).await?;
+
+        let sql = sql.paginate(self.conn, params.page_size);
+
+        let models = sql
+            .fetch_page(params.page)
+            .await?
+            .into_iter()
+            .map(|item| PlanModelDto::new(item))
+            .collect::<Vec<PlanModelDto>>();
+
+        Ok(PlanModelList {
+            total,
+            data: models,
+        })
     }
 }

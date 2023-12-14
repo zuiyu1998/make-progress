@@ -1,5 +1,5 @@
 use chrono::NaiveDateTime;
-use rc_entity::prelude::{PlanModelDto, PlanOption};
+use rc_entity::prelude::{PlanModelDto, PlanModelListParams, PlanOption};
 
 pub struct PlanStorageForm {
     pub name: String,
@@ -68,4 +68,13 @@ pub struct PlanStorageListParams {
     pub page_size: u64,
     pub page: u64,
     pub project_id: Option<i32>,
+}
+
+impl From<PlanStorageListParams> for PlanModelListParams {
+    fn from(value: PlanStorageListParams) -> Self {
+        PlanModelListParams {
+            page_size: value.page_size,
+            page: value.page,
+        }
+    }
 }

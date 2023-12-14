@@ -1,6 +1,16 @@
 use super::model::{ActiveModel, Model};
 use sea_orm::entity::{prelude::*, Set};
 
+pub struct PlanModelListParams {
+    pub page_size: u64,
+    pub page: u64,
+}
+
+pub struct PlanModelList {
+    pub data: Vec<PlanModelDto>,
+    pub total: u64,
+}
+
 pub struct PlanModelDto {
     pub id: i32,
     pub name: String,

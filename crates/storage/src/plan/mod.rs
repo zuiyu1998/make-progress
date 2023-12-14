@@ -1,8 +1,5 @@
 use crate::StorageResult;
-use rc_entity::{
-    prelude::{PlanColumn, PlanDb, PlanEntity, PlanModelDto},
-    sea_orm::{ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter},
-};
+use rc_entity::{prelude::PlanDb, sea_orm::ConnectionTrait};
 
 mod dto;
 
@@ -48,32 +45,32 @@ impl<'a, C: ConnectionTrait> PlanStorage<'a, C> {
     }
 
     pub async fn list(&self, params: PlanStorageListParams) -> StorageResult<PlanStorageList> {
-        let mut sql = PlanEntity::find();
+        let page_size = params.page_size;
+        let mut page = params.page;
 
-        if let Some(project_id) = params.project_id {
-            sql = sql.filter(PlanColumn::ProjectId.eq(project_id));
-        }
+        let db = PlanDb::new(self.conn);
 
-        let total = sql.clone().count(self.conn).await?;
-        let paginator = sql.paginate(self.conn, params.page_size);
-        let data = paginator
-            .fetch_page(params.page)
-            .await?
-            .into_iter()
-            .map(|item| PlanModelDto::new(item).into())
-            .collect::<Vec<PlanStorageModel>>();
+        let list = db.list(params.into()).await?;
 
         let mut has_next = true;
 
-        if data.len() < params.page_size as usize {
+        if list.data.len() < page_size as usize {
             has_next = false;
         }
 
+        if has_next {
+            page = page + 1;
+        }
+
         Ok(PlanStorageList {
-            total,
-            data,
-            page: params.page,
-            page_size: params.page_size,
+            total: list.total,
+            data: list
+                .data
+                .into_iter()
+                .map(|model| model.into())
+                .collect::<Vec<PlanStorageModel>>(),
+            page,
+            page_size,
             has_next,
         })
     }
