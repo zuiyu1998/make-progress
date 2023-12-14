@@ -4,6 +4,7 @@ import PlanCreate from '/@/views/plan/create';
 import TaskCreate from '/@/views/task/create';
 import ProjectDashboard from '/@/views/project/dashboard';
 import PlanDashboard from '/@/views/plan/dashboard';
+import TaskDashboard from '/@/views/task/dashboard';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: '/task',
         children: [
+          {
+            path: 'dashboard',
+            element: <TaskDashboard />,
+          },
           {
             path: 'create',
             element: <TaskCreate />,
