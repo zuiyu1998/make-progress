@@ -1,17 +1,17 @@
 import { Row, Col } from 'antd';
-import { getProjectList } from '/@/apis/project';
+import { getTaskList } from '/@/apis/task';
 import React from 'react';
 import {
-  ProjectItem,
-  intoProjectItemProp,
-  ProjectItemProp,
-} from '/@/views/components/project';
+  TaskItem,
+  TaskItemProp,
+  intoTaskItemProp,
+} from '/@/views/components/task';
 import { usePageConfig } from '/@/hooks/page';
 import classNames from './index.module.less';
 import { PageWrapper } from '/@/layout/page';
 
 export function useContent() {
-  const [data, setData] = React.useState<ProjectItemProp[]>([]);
+  const [data, setData] = React.useState<TaskItemProp[]>([]);
 
   const { page, pageSize, loading, setLoading, hasNext, setHasNext, setPage } =
     usePageConfig();
@@ -28,7 +28,7 @@ export function useContent() {
     setLoading(true);
 
     try {
-      const res = await getProjectList({
+      const res = await getTaskList({
         page: page,
         page_size: pageSize,
       });
@@ -39,7 +39,7 @@ export function useContent() {
         setPage(page + 1);
       }
 
-      let newData = res.data.map((item) => intoProjectItemProp(item));
+      let newData = res.data.map((item) => intoTaskItemProp(item));
 
       if (isClear) {
         setData(newData);
@@ -70,8 +70,8 @@ function Dashboard() {
         <Row gutter={16}>
           {data.map((item) => {
             return (
-              <Col span={12} key={item.id}>
-                <ProjectItem {...item} />
+              <Col span={12} key={item.item.id}>
+                <TaskItem {...item} />
               </Col>
             );
           })}
