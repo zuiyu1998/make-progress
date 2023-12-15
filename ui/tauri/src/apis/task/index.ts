@@ -4,8 +4,8 @@ import { TaskForm, TaskList } from './model';
 export interface PageParams {
   page_size: number;
   page: number;
-  project_id: number;
-  plan_id: number;
+  project_id?: number;
+  plan_id?: number;
 }
 
 enum Api {
@@ -19,7 +19,7 @@ export async function createTask(form: TaskForm) {
   });
 }
 
-export async function getTaskList(params: TaskForm) {
+export async function getTaskList(params: PageParams) {
   return defApi.invoke<TaskList>(Api.GetTaskList, {
     params,
   });

@@ -1,6 +1,7 @@
 export type Task = {
   id: number;
   name: string;
+  background?: string;
   create_at: string;
   update_at: string;
   start_at?: string;
