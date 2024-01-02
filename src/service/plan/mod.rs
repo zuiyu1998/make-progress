@@ -64,44 +64,16 @@ impl<'a> PlanService<'a> {
 
     //创建计划
     pub async fn create_plan(&self, form: PlanForm) -> ServiceResult<Plan> {
-        let now = Local::now();
-
-        let form = form.into_storage_form(self.project.id, now.naive_local());
-        let begin = self.service.storage.conn.begin().await?;
-
-        let project_storage = PlanStorage::new(&begin);
-
-        let project = project_storage.create_plan(form).await?.into();
-
-        begin.commit().await?;
-
-        Ok(project)
+        todo!()
     }
 
     pub async fn get_plan(&self, plan_id: i32) -> ServiceResult<Plan> {
-        let begin = self.service.storage.conn.begin().await?;
-
-        let plan_storage = PlanStorage::new(&begin);
-
-        let plan = plan_storage.find_plan(plan_id).await?.into();
-
-        begin.commit().await?;
-
-        Ok(plan)
+        todo!()
     }
 
     ///获取项目列表
     pub async fn get_plan_list(&self, params: PlanListParams) -> ServiceResult<PlanList> {
-        let params = params.int_storage(self.project.id);
-
-        let begin = self.service.storage.conn.begin().await?;
-
-        let project_storage = PlanStorage::new(&begin);
-        let data = project_storage.list(params).await?.into();
-
-        begin.commit().await?;
-
-        Ok(data)
+        todo!()
     }
 
     //更改计划

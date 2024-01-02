@@ -1,68 +1,24 @@
 use chrono::NaiveDateTime;
-use rc_entity::prelude::{TaskModelDto, TaskModelListParams, TaskModelStatus, TaskOption};
+use rc_entity::prelude::{TaskModel, TaskModelStatus};
+use serde::{Deserialize, Serialize};
 
-pub struct TaskStorageForm {
-    pub name: String,
-    pub create_at: NaiveDateTime,
-    pub update_at: NaiveDateTime,
-    pub project_id: i32,
-    pub plan_id: i32,
-    pub duration: i32,
-    pub real_duration: i32,
-    pub status: TaskStorageStatus,
-    pub start_at: Option<NaiveDateTime>,
+#[derive(Serialize, Deserialize)]
+pub struct TaskParams {
+    pub project_id: Option<i32>,
+    pub plan_id: Option<i32>,
+    pub page: i32,
+    pub page_size: i32,
 }
 
-pub enum TaskStorageStatus {
-    Start,
-    End,
-    Pause,
-    Playing,
+pub struct TaskList {
+    pub data: Vec<Task>,
+    pub has_next: bool,
+    pub page: i32,
+    pub page_size: i32,
 }
 
-impl From<TaskStorageStatus> for TaskModelStatus {
-    fn from(value: TaskStorageStatus) -> Self {
-        match value {
-            TaskStorageStatus::Start => TaskModelStatus::Start,
-            TaskStorageStatus::End => TaskModelStatus::End,
-            TaskStorageStatus::Pause => TaskModelStatus::Pause,
-            TaskStorageStatus::Playing => TaskModelStatus::Playing,
-        }
-    }
-}
-
-impl From<TaskModelStatus> for TaskStorageStatus {
-    fn from(value: TaskModelStatus) -> Self {
-        match value {
-            TaskModelStatus::Start => TaskStorageStatus::Start,
-            TaskModelStatus::End => TaskStorageStatus::End,
-            TaskModelStatus::Pause => TaskStorageStatus::Pause,
-            TaskModelStatus::Playing => TaskStorageStatus::Playing,
-        }
-    }
-}
-
-impl TaskStorageForm {
-    pub fn into_option(self) -> TaskOption {
-        let mut option = TaskOption::default();
-
-        option.start_at = self.start_at;
-        option.name = Some(self.name);
-        option.create_at = Some(self.create_at);
-        option.update_at = Some(self.update_at);
-        option.project_id = Some(self.project_id);
-        option.plan_id = Some(self.plan_id);
-        option.duration = Some(self.duration);
-        option.real_duration = Some(self.real_duration);
-        option.status = Some(self.status.into());
-
-        option
-    }
-}
-
-pub struct TaskStorageUpdate {}
-
-pub struct TaskStorageModel {
+#[derive(Serialize, Deserialize)]
+pub struct Task {
     pub id: i32,
     pub name: String,
     pub create_at: NaiveDateTime,
@@ -71,65 +27,59 @@ pub struct TaskStorageModel {
     pub plan_id: i32,
     pub remark: String,
     pub duration: i32,
-    pub status: TaskStorageStatus,
+    pub status: TaskStatus,
     pub real_duration: i32,
     pub start_at: Option<NaiveDateTime>,
 }
 
-pub struct TaskStorageList {
-    pub data: Vec<TaskStorageModel>,
-    pub total: u64,
-    pub page_size: u64,
-    pub page: u64,
-    pub has_next: bool,
-}
-
-impl From<TaskModelDto> for TaskStorageModel {
-    fn from(value: TaskModelDto) -> Self {
-        let TaskModelDto {
+impl From<TaskModel> for Task {
+    fn from(value: TaskModel) -> Self {
+        let TaskModel {
             id,
             name,
-            create_at,
-            update_at,
             project_id,
             plan_id,
+            create_at,
+            update_at,
+            start_at,
             remark,
             duration,
             status,
             real_duration,
-            start_at,
+            ..
         } = value;
 
-        TaskStorageModel {
+        Task {
             id,
             name,
             create_at,
             update_at,
             project_id,
-            real_duration,
-            duration,
-            remark,
-            status: TaskStorageStatus::from(status),
             plan_id,
+            remark,
+            duration,
+            status: status.into(),
+            real_duration,
             start_at,
         }
     }
 }
 
-pub struct TaskStorageListParams {
-    pub page_size: u64,
-    pub page: u64,
-    pub project_id: Option<i32>,
-    pub plan_id: Option<i32>,
+#[derive(Serialize, Deserialize)]
+pub enum TaskStatus {
+    Start,
+    End,
+    Pause,
+    Playing,
 }
 
-impl From<TaskStorageListParams> for TaskModelListParams {
-    fn from(value: TaskStorageListParams) -> Self {
-        TaskModelListParams {
-            page_size: value.page_size,
-            page: value.page,
-            project_id: value.project_id,
-            plan_id: value.plan_id,
+impl From<TaskModelStatus> for TaskStatus {
+    fn from(value: TaskModelStatus) -> Self {
+        match value {
+            TaskModelStatus::End => TaskStatus::End,
+            TaskModelStatus::Pause => TaskStatus::Pause,
+            TaskModelStatus::Playing => TaskStatus::Playing,
+            TaskModelStatus::Start => TaskStatus::Start,
         }
     }
 }

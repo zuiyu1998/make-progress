@@ -1,5 +1,8 @@
 use crate::StorageResult;
-use rc_entity::{prelude::TaskDb, sea_orm::ConnectionTrait};
+use rc_entity::{
+    prelude::{TaskColumn, TaskEntity},
+    sea_orm::{ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter},
+};
 
 mod dto;
 
@@ -15,63 +18,52 @@ impl<'a, C: ConnectionTrait> TaskStorage<'a, C> {
     }
 
     pub async fn delete(&self, id: i32) -> StorageResult<()> {
-        let db = TaskDb::new(self.conn);
-
-        db.delete(id).await?;
-
         Ok(())
     }
 
-    pub async fn create_task(&self, form: TaskStorageForm) -> StorageResult<TaskStorageModel> {
-        let option = form.into_option();
-
-        let db = TaskDb::new(self.conn);
-
-        let model = db.create(option).await?.into();
-
-        Ok(model)
+    pub async fn create_task(&self) -> StorageResult<()> {
+        Ok(())
     }
 
-    pub async fn find_task(&self, id: i32) -> StorageResult<TaskStorageModel> {
-        let db = TaskDb::new(self.conn);
-
-        let model = db.get(id).await?.into();
-
-        Ok(model)
+    pub async fn find_task(&self, _id: i32) -> StorageResult<()> {
+        Ok(())
     }
 
-    pub fn update_task(&self, _update: TaskStorageUpdate) -> StorageResult<TaskStorageModel> {
+    pub fn update_task(&self) -> StorageResult<()> {
         todo!()
     }
 
-    pub async fn list(&self, params: TaskStorageListParams) -> StorageResult<TaskStorageList> {
-        let page_size = params.page_size;
-        let mut page = params.page;
+    pub async fn list(&self, params: TaskParams) -> StorageResult<TaskList> {
+        let mut sql = TaskEntity::find();
 
-        let db = TaskDb::new(self.conn);
+        if let Some(project_id) = params.project_id {
+            sql = sql.filter(TaskColumn::ProjectId.eq(project_id));
+        }
 
-        let list = db.list(params.into()).await?;
+        if let Some(plan_id) = params.plan_id {
+            sql = sql.filter(TaskColumn::PlanId.eq(plan_id));
+        }
+
+        let paginator = sql.paginate(self.conn, params.page_size as u64);
+
+        let list = paginator.fetch_page(params.page as u64).await?;
 
         let mut has_next = true;
 
-        if list.data.len() < page_size as usize {
+        if list.len() < params.page_size as usize {
             has_next = false;
         }
 
-        if has_next {
-            page = page + 1;
-        }
-
-        Ok(TaskStorageList {
-            total: list.total,
+        let task_list = TaskList {
             data: list
-                .data
                 .into_iter()
-                .map(|model| model.into())
-                .collect::<Vec<TaskStorageModel>>(),
-            page,
-            page_size,
+                .map(|item| Task::from(item))
+                .collect::<Vec<Task>>(),
             has_next,
-        })
+            page: params.page,
+            page_size: params.page_size,
+        };
+
+        Ok(task_list)
     }
 }

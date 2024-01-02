@@ -1,21 +1,8 @@
-use rc_entity::sea_orm::DatabaseConnection;
-
 mod plan;
 mod project;
 mod task;
 
 mod error;
-
-#[derive(Clone)]
-pub struct Storage {
-    pub conn: DatabaseConnection,
-}
-
-impl Storage {
-    pub fn new(conn: DatabaseConnection) -> Self {
-        Storage { conn }
-    }
-}
 
 pub use error::*;
 

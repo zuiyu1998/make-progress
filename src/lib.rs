@@ -1,6 +1,6 @@
 use config::Config;
 use migration::{Migrator, MigratorTrait};
-use rc_storage::{sea_orm::Database, Storage};
+use rc_storage::sea_orm::Database;
 use std::{fs, sync::Arc};
 
 mod config;
@@ -33,9 +33,7 @@ pub async fn create_service() -> Service {
         .await
         .expect("create migration error.");
 
-    let storage = Storage::new(conn);
-
-    Service { storage }
+    Service { conn }
 }
 
 pub fn initialization(config: Arc<Config>) {

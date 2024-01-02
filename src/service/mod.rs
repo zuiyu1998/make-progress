@@ -1,5 +1,4 @@
-use rc_storage::Storage;
-
+use rc_storage::sea_orm::DatabaseConnection;
 mod plan;
 mod project;
 mod task;
@@ -10,11 +9,11 @@ pub use task::*;
 
 #[derive(Clone)]
 pub struct Service {
-    pub storage: Storage,
+    pub conn: DatabaseConnection,
 }
 
 impl Service {
-    pub fn new(storage: Storage) -> Self {
-        Self { storage }
+    pub fn new(conn: DatabaseConnection) -> Self {
+        Self { conn }
     }
 }

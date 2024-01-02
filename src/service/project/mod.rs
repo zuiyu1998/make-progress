@@ -60,56 +60,21 @@ impl<'a> ProjectService<'a> {
 
     ///获取项目详情
     pub async fn get_project(&self, project_id: i32) -> ServiceResult<Project> {
-        let begin = self.service.storage.conn.begin().await?;
-
-        let project_storage = ProjectStorage::new(&begin);
-
-        let project = project_storage.find_project(project_id).await?.into();
-
-        begin.commit().await?;
-
-        Ok(project)
+        todo!()
     }
 
     ///创建项目
     pub async fn create_project(&self, form: ProjectForm) -> ServiceResult<Project> {
-        let now = Local::now();
-
-        let form = form.into_storage_form(now.naive_local());
-        let begin = self.service.storage.conn.begin().await?;
-
-        let project_storage = ProjectStorage::new(&begin);
-
-        let project = project_storage.create_project(form).await?.into();
-
-        begin.commit().await?;
-
-        Ok(project)
+        todo!()
     }
 
     ///获取项目列表
     pub async fn get_project_list(&self, params: ProjectListParams) -> ServiceResult<ProjectList> {
-        let params = params.into();
-
-        let begin = self.service.storage.conn.begin().await?;
-
-        let project_storage = ProjectStorage::new(&begin);
-        let data = project_storage.list(params).await?.into();
-
-        begin.commit().await?;
-
-        Ok(data)
+        todo!()
     }
 
     ///删除项目
     pub async fn delete_project(&self, id: i32) -> ServiceResult<()> {
-        let begin = self.service.storage.conn.begin().await?;
-        let project_storage = ProjectStorage::new(&begin);
-
-        project_storage.delete(id).await?;
-
-        begin.commit().await?;
-
-        Ok(())
+        todo!()
     }
 }
