@@ -1,7 +1,9 @@
 use crate::StorageResult;
 use rc_entity::{
     prelude::{TaskColumn, TaskEntity},
-    sea_orm::{ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter},
+    sea_orm::{
+        ActiveModelTrait, ColumnTrait, ConnectionTrait, EntityTrait, PaginatorTrait, QueryFilter,
+    },
 };
 
 mod dto;
@@ -21,8 +23,12 @@ impl<'a, C: ConnectionTrait> TaskStorage<'a, C> {
         Ok(())
     }
 
-    pub async fn create_task(&self) -> StorageResult<()> {
-        Ok(())
+    pub async fn create_task(&self, form: TaskForm) -> StorageResult<Task> {
+        let active = form.get_active_model();
+
+        let model = active.insert(self.conn).await?;
+
+        Ok(Task::from(model))
     }
 
     pub async fn find_task(&self, _id: i32) -> StorageResult<()> {

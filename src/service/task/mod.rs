@@ -2,7 +2,7 @@ use crate::{Service, ServiceResult};
 use migration::sea_orm::TransactionTrait;
 use rc_storage::prelude::TaskStorage;
 
-pub use rc_storage::prelude::{Task, TaskList, TaskParams};
+pub use rc_storage::prelude::{Task, TaskForm, TaskList, TaskParams};
 
 pub struct TaskService<'a> {
     service: &'a Service,
@@ -14,8 +14,16 @@ impl<'a> TaskService<'a> {
     }
 
     //创建计划
-    pub async fn create_task(&self) -> ServiceResult<()> {
-        todo!()
+    pub async fn create_task(&self, form: TaskForm) -> ServiceResult<Task> {
+        let begin = self.service.conn.begin().await?;
+
+        let storage = TaskStorage::new(&begin);
+
+        let task = storage.create_task(form).await?;
+
+        begin.commit().await?;
+
+        Ok(task)
     }
 
     ///获取项目列表
