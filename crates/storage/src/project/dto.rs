@@ -1,9 +1,23 @@
 use chrono::NaiveDateTime;
-use rc_entity::prelude::{ProjectActiveModel, ProjectModel};
+use rc_entity::{
+    prelude::{ProjectActiveModel, ProjectModel},
+    sea_orm::{ActiveModelTrait, ConnectionTrait, Set},
+};
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Clone)]
+pub struct ProjectList {
+    pub data: Vec<Project>,
+    pub has_next: bool,
+    pub page: i32,
+    pub page_size: i32,
+}
 
+pub struct ProjectParams {
+    pub page: i32,
+    pub page_size: i32,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Link {}
 
 #[derive(Serialize, Deserialize, Clone)]

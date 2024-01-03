@@ -1,7 +1,7 @@
-use crate::StorageResult;
+use crate::{prelude::Task, StorageResult};
 use rc_entity::{
-    prelude::ProjectActiveModel,
-    sea_orm::{ActiveModelTrait, ConnectionTrait, Set},
+    prelude::{ProjectActiveModel, ProjectEntity},
+    sea_orm::{ActiveModelTrait, ConnectionTrait, EntityTrait, PaginatorTrait, Set},
 };
 
 mod dto;
@@ -36,15 +36,42 @@ impl<'a, C: ConnectionTrait> ProjectStorage<'a, C> {
         Ok(Project::from(model))
     }
 
-    pub async fn find_project(&self, id: i32) -> StorageResult<()> {
-        todo!()
+    pub async fn find_project(&self, id: i32) -> StorageResult<Option<Project>> {
+        let model = ProjectEntity::find_by_id(id)
+            .one(self.conn)
+            .await?
+            .and_then(|item| Some(Project::from(item)));
+
+        Ok(model)
     }
 
     pub fn update_project(&self) -> StorageResult<()> {
         todo!()
     }
 
-    pub async fn list(&self) -> StorageResult<()> {
-        todo!()
+    pub async fn list(&self, params: ProjectParams) -> StorageResult<ProjectList> {
+        let sql = ProjectEntity::find();
+
+        let paginator = sql.paginate(self.conn, params.page_size as u64);
+
+        let list = paginator.fetch_page(params.page as u64).await?;
+
+        let mut has_next = true;
+
+        if list.len() < params.page_size as usize {
+            has_next = false;
+        }
+
+        let project_list = ProjectList {
+            data: list
+                .into_iter()
+                .map(|item| Project::from(item))
+                .collect::<Vec<Project>>(),
+            has_next,
+            page: params.page,
+            page_size: params.page_size,
+        };
+
+        Ok(project_list)
     }
 }

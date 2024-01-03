@@ -2,6 +2,18 @@ use chrono::NaiveDateTime;
 use rc_entity::prelude::{PlanActiveModel, PlanModel};
 use serde::{Deserialize, Serialize};
 
+pub struct PlanList {
+    pub data: Vec<Plan>,
+    pub has_next: bool,
+    pub page: i32,
+    pub page_size: i32,
+}
+
+pub struct PlanParams {
+    pub page: i32,
+    pub page_size: i32,
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct Plan {
     pub id: i32,
