@@ -1,53 +1,10 @@
 use crate::{Service, ServiceResult};
 use rc_storage::{
-    chrono::{Local, NaiveDateTime},
-    prelude::{ProjectStorage, ProjectStorageModel},
+    prelude::{ProjectForm, ProjectStorage},
     sea_orm::TransactionTrait,
 };
-use serde::{Deserialize, Serialize};
 
-mod dto;
-
-pub use dto::*;
-
-#[derive(Serialize, Deserialize, Clone)]
-
-pub struct Link {}
-
-#[derive(Serialize, Deserialize, Clone)]
-
-pub struct Project {
-    pub id: i32,
-    pub name: String,
-    pub background: Option<String>,
-    pub create_at: NaiveDateTime,
-    pub update_at: NaiveDateTime,
-    pub end_at: Option<NaiveDateTime>,
-    pub link_list: Vec<Link>,
-}
-
-impl From<ProjectStorageModel> for Project {
-    fn from(value: ProjectStorageModel) -> Self {
-        let ProjectStorageModel {
-            id,
-            name,
-            background,
-            create_at,
-            update_at,
-            end_at,
-        } = value;
-
-        Project {
-            id,
-            name,
-            background,
-            create_at,
-            update_at,
-            end_at,
-            link_list: vec![],
-        }
-    }
-}
+pub use rc_storage::prelude::Project;
 
 pub struct ProjectService<'a> {
     service: &'a Service,
@@ -65,11 +22,19 @@ impl<'a> ProjectService<'a> {
 
     ///创建项目
     pub async fn create_project(&self, form: ProjectForm) -> ServiceResult<Project> {
-        todo!()
+        let begin = self.service.conn.begin().await?;
+
+        let storage = ProjectStorage::new(&begin);
+
+        let project = storage.create_project(form).await?;
+
+        begin.commit().await?;
+
+        Ok(project)
     }
 
     ///获取项目列表
-    pub async fn get_project_list(&self, params: ProjectListParams) -> ServiceResult<ProjectList> {
+    pub async fn get_project_list(&self) -> ServiceResult<()> {
         todo!()
     }
 

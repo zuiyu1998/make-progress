@@ -1,79 +1,57 @@
 use chrono::NaiveDateTime;
-use rc_entity::prelude::{ProjectModelDto, ProjectModelListParams, ProjectOption};
+use rc_entity::prelude::{ProjectActiveModel, ProjectModel};
+use serde::{Deserialize, Serialize};
 
-pub struct ProjectStorageForm {
-    pub name: String,
-    pub background: Option<String>,
-    pub create_at: NaiveDateTime,
-    pub update_at: NaiveDateTime,
-    pub end_at: Option<NaiveDateTime>,
-}
+#[derive(Serialize, Deserialize, Clone)]
 
-impl ProjectStorageForm {
-    pub fn into_option(self) -> ProjectOption {
-        let mut option = ProjectOption::default();
+pub struct Link {}
 
-        option.name = Some(self.name);
-        option.background = self.background;
-        option.create_at = Some(self.create_at);
-        option.update_at = Some(self.update_at);
-        option.end_at = self.end_at;
+#[derive(Serialize, Deserialize, Clone)]
 
-        option
-    }
-}
-
-pub struct ProjectStorageUpdate {}
-
-pub struct ProjectStorageModel {
+pub struct Project {
     pub id: i32,
     pub name: String,
     pub background: Option<String>,
     pub create_at: NaiveDateTime,
     pub update_at: NaiveDateTime,
     pub end_at: Option<NaiveDateTime>,
+    pub link_list: Vec<Link>,
 }
 
-pub struct ProjectStorageList {
-    pub data: Vec<ProjectStorageModel>,
-    pub total: u64,
-    pub page_size: u64,
-    pub page: u64,
-    pub has_next: bool,
-}
-
-impl From<ProjectModelDto> for ProjectStorageModel {
-    fn from(value: ProjectModelDto) -> Self {
-        let ProjectModelDto {
+impl From<ProjectModel> for Project {
+    fn from(value: ProjectModel) -> Self {
+        let ProjectModel {
             id,
             name,
             background,
             create_at,
             update_at,
             end_at,
+            ..
         } = value;
 
-        ProjectStorageModel {
+        Project {
             id,
             name,
             background,
             create_at,
             update_at,
             end_at,
+            link_list: vec![],
         }
     }
 }
 
-pub struct ProjectStorageListParams {
-    pub page_size: u64,
-    pub page: u64,
+pub struct ProjectForm {
+    pub name: String,
+    pub background: Option<String>,
+    pub end_at: Option<NaiveDateTime>,
 }
 
-impl From<ProjectStorageListParams> for ProjectModelListParams {
-    fn from(value: ProjectStorageListParams) -> Self {
-        ProjectModelListParams {
-            page_size: value.page_size,
-            page: value.page,
-        }
+impl ProjectForm {
+    pub fn get_active_model(&self) -> ProjectActiveModel {
+        let active: ProjectActiveModel = Default::default();
+
+        active
     }
 }
