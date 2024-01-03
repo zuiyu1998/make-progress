@@ -1,31 +1,9 @@
 use chrono::NaiveDateTime;
-use rc_entity::prelude::{PlanModelDto, PlanModelListParams, PlanOption};
+use rc_entity::prelude::{PlanActiveModel, PlanModel};
+use serde::{Deserialize, Serialize};
 
-pub struct PlanStorageForm {
-    pub name: String,
-    pub create_at: NaiveDateTime,
-    pub update_at: NaiveDateTime,
-    pub dead_at: NaiveDateTime,
-    pub project_id: i32,
-}
-
-impl PlanStorageForm {
-    pub fn into_option(self) -> PlanOption {
-        let mut option = PlanOption::default();
-
-        option.name = Some(self.name);
-        option.create_at = Some(self.create_at);
-        option.update_at = Some(self.update_at);
-        option.dead_at = Some(self.dead_at);
-        option.project_id = Some(self.project_id);
-
-        option
-    }
-}
-
-pub struct PlanStorageUpdate {}
-
-pub struct PlanStorageModel {
+#[derive(Serialize, Deserialize)]
+pub struct Plan {
     pub id: i32,
     pub name: String,
     pub create_at: NaiveDateTime,
@@ -34,26 +12,19 @@ pub struct PlanStorageModel {
     pub project_id: i32,
 }
 
-pub struct PlanStorageList {
-    pub data: Vec<PlanStorageModel>,
-    pub total: u64,
-    pub page_size: u64,
-    pub page: u64,
-    pub has_next: bool,
-}
-
-impl From<PlanModelDto> for PlanStorageModel {
-    fn from(value: PlanModelDto) -> Self {
-        let PlanModelDto {
+impl From<PlanModel> for Plan {
+    fn from(value: PlanModel) -> Self {
+        let PlanModel {
             id,
             name,
             create_at,
             update_at,
             dead_at,
             project_id,
+            ..
         } = value;
 
-        PlanStorageModel {
+        Plan {
             id,
             name,
             create_at,
@@ -64,17 +35,17 @@ impl From<PlanModelDto> for PlanStorageModel {
     }
 }
 
-pub struct PlanStorageListParams {
-    pub page_size: u64,
-    pub page: u64,
-    pub project_id: Option<i32>,
+#[derive(Serialize, Deserialize)]
+pub struct PlanForm {
+    pub name: String,
+    pub dead_at: NaiveDateTime,
+    pub project_id: i32,
 }
 
-impl From<PlanStorageListParams> for PlanModelListParams {
-    fn from(value: PlanStorageListParams) -> Self {
-        PlanModelListParams {
-            page_size: value.page_size,
-            page: value.page,
-        }
+impl PlanForm {
+    pub fn get_active_model(&self) -> PlanActiveModel {
+        let active: PlanActiveModel = Default::default();
+
+        active
     }
 }

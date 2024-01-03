@@ -1,5 +1,5 @@
 use crate::StorageResult;
-use rc_entity::{prelude::PlanDb, sea_orm::ConnectionTrait};
+use rc_entity::sea_orm::{ActiveModelTrait, ConnectionTrait};
 
 mod dto;
 
@@ -15,63 +15,26 @@ impl<'a, C: ConnectionTrait> PlanStorage<'a, C> {
     }
 
     pub async fn delete(&self, id: i32) -> StorageResult<()> {
-        let db = PlanDb::new(self.conn);
-
-        db.delete(id).await?;
-
         Ok(())
     }
 
-    pub async fn create_plan(&self, form: PlanStorageForm) -> StorageResult<PlanStorageModel> {
-        let option = form.into_option();
+    pub async fn create_plan(&self, form: PlanForm) -> StorageResult<Plan> {
+        let active = form.get_active_model();
 
-        let db = PlanDb::new(self.conn);
+        let model = active.insert(self.conn).await?;
 
-        let model = db.create(option).await?.into();
-
-        Ok(model)
+        Ok(Plan::from(model))
     }
 
-    pub async fn find_plan(&self, id: i32) -> StorageResult<PlanStorageModel> {
-        let db = PlanDb::new(self.conn);
-
-        let model = db.get(id).await?.into();
-
-        Ok(model)
-    }
-
-    pub fn update_plan(&self, _update: PlanStorageUpdate) -> StorageResult<PlanStorageModel> {
+    pub async fn find_plan(&self, id: i32) -> StorageResult<()> {
         todo!()
     }
 
-    pub async fn list(&self, params: PlanStorageListParams) -> StorageResult<PlanStorageList> {
-        let page_size = params.page_size;
-        let mut page = params.page;
+    pub fn update_plan(&self) -> StorageResult<()> {
+        todo!()
+    }
 
-        let db = PlanDb::new(self.conn);
-
-        let list = db.list(params.into()).await?;
-
-        let mut has_next = true;
-
-        if list.data.len() < page_size as usize {
-            has_next = false;
-        }
-
-        if has_next {
-            page = page + 1;
-        }
-
-        Ok(PlanStorageList {
-            total: list.total,
-            data: list
-                .data
-                .into_iter()
-                .map(|model| model.into())
-                .collect::<Vec<PlanStorageModel>>(),
-            page,
-            page_size,
-            has_next,
-        })
+    pub async fn list(&self) -> StorageResult<()> {
+        todo!()
     }
 }
