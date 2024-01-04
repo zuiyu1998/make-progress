@@ -9,7 +9,13 @@ export function dateFormat(
   date?: string,
   formate: DateFormat = DateFormat.All
 ) {
-  return dayjs(date).format(formate);
+  let instance = dayjs(date);
+
+  if (!instance.isValid()) {
+    instance = dayjs();
+  }
+
+  return instance.format(formate);
 }
 
 export function timestamp(date?: string) {

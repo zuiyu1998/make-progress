@@ -1,5 +1,5 @@
 import { Project } from '/@/apis/project/model';
-import { dateFormat, DateFormat } from '/@/utils/date_format';
+import { dateFormat, DateFormat } from '../../utils/format';
 import classNames from './index.module.less';
 import Icon, { IconClass } from '/@/components/icon';
 import { Tooltip } from 'antd';

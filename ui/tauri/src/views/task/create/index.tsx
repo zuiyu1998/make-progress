@@ -3,7 +3,7 @@ import { createTask } from '/@/apis/task';
 import { TopNavigation } from '/@/layout/page';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import classNames from './index.module.less';
-import { timestamp } from '/@/utils/date_format';
+import { timestamp } from '../../../utils/format';
 function PlanCreateView() {
   const [form] = Form.useForm();
 
