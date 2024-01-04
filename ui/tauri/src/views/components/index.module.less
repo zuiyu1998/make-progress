@@ -45,10 +45,43 @@
 }
 
 
-.task-item {
-    background-color: red;
+
+.background {
+
+
+
+    &-container {
+        aspect-ratio: 800 / 600;
+
+
+        &-alt-content {
+            height: 100%;
+            width: 100%;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+    }
+
+    &-text {
+        font-size: 46px;
+        color: white;
+    }
+
+
 }
 
-.background-container {
-    aspect-ratio: 600 800;
+.task-item {
+
+    background-color: white;
+    border-radius: 8px;
+
+    &-name {
+        font-size: 24px;
+
+    }
 }

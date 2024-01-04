@@ -12,6 +12,7 @@ import { PageWrapper } from '/@/layout/page';
 import { FloatButton } from 'antd';
 import Icon, { IconClass } from '/@/components/icon';
 import { useNavigate } from 'react-router-dom';
+import { TaskStatus } from '/@/apis/task/model';
 
 enum SettingMode {
   FloatButton,
@@ -53,7 +54,22 @@ function Setting() {
 }
 
 function useContent() {
-  const [data, setData] = React.useState<TaskItemProp[]>([]);
+  const [data, setData] = React.useState<TaskItemProp[]>([
+    {
+      item: {
+        id: 1,
+        name: 'test',
+        create_at: '',
+        update_at: '',
+        project_id: 1,
+        plan_id: 1,
+        duration: 1000,
+        real_duration: 50,
+        remark: '',
+        status: TaskStatus.End,
+      },
+    },
+  ]);
 
   const { page, pageSize, loading, setLoading, hasNext, setHasNext, setPage } =
     usePageConfig();
@@ -94,9 +110,9 @@ function useContent() {
     }
   }
 
-  React.useEffect(() => {
-    getData(true);
-  }, []);
+  // React.useEffect(() => {
+  //   getData(true);
+  // }, []);
 
   return {
     data,

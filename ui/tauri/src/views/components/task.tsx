@@ -32,6 +32,13 @@ export function TaskItem(props: TaskItemProp) {
   return (
     <div className={classNames['task-item']}>
       <Bakground background={task.background} alt={task.name} />
+      <div className={classNames['task-item-name']}>{task.name}</div>
+      <div>
+        <div>{task.create_at}</div>
+        <div>{task.update_at}</div>
+      </div>
+
+      <div>操作</div>
     </div>
   );
 }
